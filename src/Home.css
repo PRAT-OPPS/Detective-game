@@ -1,0 +1,517 @@
+/* ==========================================================
+   CINEMATIC MENTALIST HOME & CBI HEADQUARTERS STYLES
+   ========================================================== */
+
+.cbi-home-wrapper {
+  position: relative;
+  min-height: 100vh;
+  color: #e4e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  padding-bottom: 70px;
+}
+
+/* ==========================================================
+   RED SPACE: LAPTOP WIDESCREEN WALLPAPER ORIENTATION
+   ========================================================== */
+.cbi-dynamic-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Rotates the portrait 735x1306 file into a 1306x735 16:9 widescreen laptop wallpaper */
+.cbi-backdrop-img {
+  width: 100vh;
+  height: 100vw;
+  object-fit: cover;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+  transition: opacity 0.4s ease-in-out;
+}
+
+/* Dark Noir Cinematic Overlay */
+.cbi-backdrop-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at 50% 25%,
+      rgba(18, 10, 14, 0.7) 0%,
+      rgba(9, 12, 17, 0.88) 60%,
+      rgba(3, 4, 7, 0.98) 100%
+    ),
+    linear-gradient(to bottom, rgba(4, 5, 8, 0.35) 0%, rgba(4, 5, 8, 0.96) 100%);
+}
+
+/* Main Content Layer */
+.cbi-home-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Hero Section */
+.cbi-hero-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 45px 0 32px;
+  gap: 30px;
+}
+
+@media (max-width: 900px) {
+  .cbi-hero-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.cbi-hero-left {
+  max-width: 620px;
+}
+
+.cbi-division-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #b82631;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 4px;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+  box-shadow: 0 0 20px rgba(184, 38, 49, 0.45);
+}
+
+.cbi-hero-left h1 {
+  font-size: clamp(38px, 5vw, 56px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin: 0 0 10px;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.cbi-hero-left h1 span {
+  color: #ffc870;
+  text-shadow: 0 0 25px rgba(255, 200, 112, 0.4);
+}
+
+.cbi-hero-subtitle {
+  font-size: 17px;
+  color: #d1d7e0;
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.cbi-hero-desc {
+  font-size: 14px;
+  color: #8b949e;
+  line-height: 1.6;
+  margin: 0 0 22px;
+}
+
+/* Wallpaper Switcher Badges */
+.cbi-wallpaper-switcher {
+  background: rgba(14, 18, 25, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 18px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.switcher-label {
+  display: block;
+  font-size: 10.5px;
+  color: #c99342;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+
+.switcher-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.agent-chip-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #c9d1d9;
+  padding: 6px 14px 6px 6px;
+  border-radius: 24px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.agent-profile-avatar-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #ffc870;
+}
+
+.agent-chip-btn:hover {
+  background: rgba(184, 38, 49, 0.3);
+  border-color: #ffc870;
+  color: #fff;
+}
+
+.agent-chip-btn.active {
+  background: linear-gradient(135deg, #a61c27, #680d14);
+  border-color: #ffc870;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(255, 200, 112, 0.35);
+}
+
+/* ==========================================================
+   YELLOW BOX: UPRIGHT PROFILE CARD (NO ROTATION)
+   ========================================================== */
+.cbi-hero-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.hero-preview-frame {
+  width: 260px;
+  height: 350px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 200, 112, 0.45);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(184, 38, 49, 0.3);
+  position: relative;
+  background: #0d0f14;
+}
+
+/* Cancels all upside rotation - completely upright */
+.hero-pro-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transform: none !important;
+}
+
+.preview-caption-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(10, 13, 18, 0.95) 0%, transparent 100%);
+  padding: 20px 16px 14px;
+}
+
+.preview-caption-strip strong {
+  font-size: 15px;
+  color: #fff;
+  display: block;
+}
+
+.preview-caption-strip span {
+  font-size: 11px;
+  color: #ffc870;
+  letter-spacing: 1px;
+}
+
+/* Home Soundtrack Controller Pill */
+.home-audio-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(18, 22, 32, 0.85);
+  border: 1px solid rgba(255, 200, 112, 0.3);
+  padding: 6px 14px;
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+}
+
+.home-audio-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.home-audio-tag {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #ffc870;
+  display: block;
+}
+
+.home-audio-name {
+  font-size: 11px;
+  color: #e4e7eb;
+  font-weight: 600;
+}
+
+/* ==========================================================
+   METRICS BAR
+   ========================================================== */
+
+.cbi-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 35px;
+}
+
+@media (max-width: 900px) {
+  .cbi-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.cbi-stat-box {
+  background: rgba(14, 18, 25, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  backdrop-filter: blur(12px);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.cbi-stat-box:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 200, 112, 0.4);
+}
+
+.stat-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffc870;
+}
+
+.stat-info span {
+  font-size: 10.5px;
+  color: #8b949e;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  display: block;
+}
+
+.stat-info h2 {
+  font-size: 24px;
+  color: #fff;
+  margin: 2px 0 0;
+}
+
+/* ==========================================================
+   CASE MANAGEMENT & CASE CARDS
+   ========================================================== */
+
+.cbi-cases-section {
+  background: rgba(14, 18, 25, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 28px;
+  backdrop-filter: blur(14px);
+}
+
+.cases-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cases-title-group h2 {
+  font-size: 22px;
+  color: #ffffff;
+  margin: 0 0 4px;
+}
+
+.cases-title-group p {
+  font-size: 13px;
+  color: #8b949e;
+  margin: 0;
+}
+
+.search-filter-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cbi-search-input-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 9px 14px;
+  border-radius: 8px;
+  color: #8b949e;
+}
+
+.cbi-search-input-box:focus-within {
+  border-color: #ffc870;
+}
+
+.cbi-search-input-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 13px;
+  width: 220px;
+}
+
+.filter-btn-group {
+  display: flex;
+  gap: 6px;
+}
+
+.filter-pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #8b949e;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-pill.active {
+  background: #b82631;
+  color: #fff;
+  border-color: #b82631;
+}
+
+/* Case Grid */
+.cbi-case-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 22px;
+}
+
+/* Individual Case Card */
+.case-card-reloaded {
+  background: rgba(18, 22, 32, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.case-card-reloaded:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 200, 112, 0.45);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(184, 38, 49, 0.2);
+}
+
+.case-top-stamp {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.case-file-id {
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffc870;
+  letter-spacing: 1.5px;
+}
+
+.case-diff-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(184, 38, 49, 0.25);
+  color: #ff7882;
+  border: 1px solid rgba(184, 38, 49, 0.5);
+}
+
+.case-card-reloaded h3 {
+  font-size: 21px;
+  color: #ffffff;
+  margin: 0 0 8px;
+}
+
+.case-brief-desc {
+  font-size: 13px;
+  color: #8b949e;
+  line-height: 1.55;
+  margin: 0 0 18px;
+  flex: 1;
+}
+
+.case-meta-tags-row {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 18px;
+  font-size: 12px;
+  color: #c0c7d2;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.case-card-action-btn {
+  background: linear-gradient(135deg, #a61c27, #680d14);
+  color: #ffffff;
+  border: 1px solid rgba(255, 200, 112, 0.3);
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(166, 28, 39, 0.35);
+}
+
+.case-card-action-btn:hover {
+  background: linear-gradient(135deg, #bf222f, #7d1019);
+  transform: translateY(-1px);
+}

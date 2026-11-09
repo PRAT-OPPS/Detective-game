@@ -1,0 +1,375 @@
+/* ==========================================================
+   RESIDENT EVIL × THE MENTALIST 3D EVIDENCE CHAMBER STYLES
+   ========================================================== */
+
+.evidence-re-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 10%, #1a080d 0%, #0a0d13 60%, #030406 100%);
+  color: #e4e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: 60px;
+  user-select: none;
+}
+
+.evidence-re-container {
+  max-width: 1250px;
+  margin: 24px auto 0;
+  padding: 0 20px;
+}
+
+/* Header */
+.evidence-re-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(17, 21, 30, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 4px solid #b82631;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(14px);
+}
+
+.evidence-re-header h1 {
+  font-size: 24px;
+  color: #ffffff;
+  margin: 4px 0 0;
+  letter-spacing: 1px;
+}
+
+.cbi-lab-stamp {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #ffc870;
+  letter-spacing: 2px;
+  display: block;
+}
+
+.re-status-pill {
+  background: rgba(184, 38, 49, 0.2);
+  border: 1px solid rgba(184, 38, 49, 0.4);
+  color: #ff8e95;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 4px;
+  letter-spacing: 1.5px;
+}
+
+/* Main Layout Grid: Left Inventory, Right 3D Turntable */
+.evidence-re-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 22px;
+}
+
+@media (max-width: 900px) {
+  .evidence-re-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   RESIDENT EVIL INVENTORY SLOTS (LEFT)
+   ========================================================== */
+
+.re-inventory-sidebar {
+  background: rgba(14, 18, 25, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: fit-content;
+}
+
+.inventory-slot-title {
+  font-size: 11px;
+  color: #c99342;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.re-slot-card {
+  background: rgba(22, 28, 38, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  position: relative;
+}
+
+.re-slot-card:hover {
+  background: rgba(35, 42, 56, 0.8);
+  border-color: rgba(255, 200, 112, 0.4);
+  transform: translateX(4px);
+}
+
+.re-slot-card.active {
+  border-color: #b82631;
+  background: radial-gradient(circle at 10% 50%, rgba(184, 38, 49, 0.3) 0%, rgba(20, 24, 34, 0.95) 100%);
+  box-shadow: 0 0 16px rgba(184, 38, 49, 0.45);
+}
+
+.re-slot-thumbnail {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  background: #0c0e14;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.re-slot-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.re-slot-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.re-slot-info h4 {
+  font-size: 13.5px;
+  color: #ffffff;
+  margin: 0 0 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.re-slot-info span {
+  font-size: 10px;
+  color: #ffc870;
+  letter-spacing: 1px;
+  display: block;
+}
+
+.re-slot-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #555e6c;
+}
+
+.re-slot-card.active .re-slot-indicator {
+  background: #5cdb95;
+  box-shadow: 0 0 8px #5cdb95;
+}
+
+/* ==========================================================
+   RESIDENT EVIL 3D EXAMINATION CHAMBER (RIGHT)
+   ========================================================== */
+
+.re-examination-chamber {
+  background: rgba(14, 18, 25, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+}
+
+/* 3D Turntable Stage */
+.re-3d-stage {
+  height: 380px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 50% 30%, rgba(201, 147, 66, 0.12) 0%, rgba(10, 13, 18, 0.95) 75%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  cursor: grab;
+  position: relative;
+  overflow: hidden;
+}
+
+.re-3d-stage:active {
+  cursor: grabbing;
+}
+
+/* Spotlight Beam Effect */
+.re-overhead-spotlight {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 160px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 200, 112, 0.25) 0%, transparent 80%);
+  pointer-events: none;
+}
+
+/* Grid HUD overlay */
+.re-3d-grid-hud {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  font-family: monospace;
+  font-size: 11px;
+  color: #ffc870;
+  letter-spacing: 1px;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.re-3d-drag-hint {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 11px;
+  color: #8b949e;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* The Rotatable 3D Card / Object */
+.re-3d-object-wrap {
+  width: 250px;
+  height: 250px;
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.re-item-card-3d {
+  width: 220px;
+  height: 220px;
+  border-radius: 14px;
+  background: #141822;
+  border: 2px solid rgba(255, 200, 112, 0.4);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 200, 112, 0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+.re-item-card-3d img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Controls Strip under 3D Stage */
+.re-controls-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.re-ctrl-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #c9d1d9;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.re-ctrl-btn:hover {
+  background: rgba(184, 38, 49, 0.25);
+  border-color: #ffc870;
+  color: #fff;
+}
+
+/* Forensic Item Dossier Card */
+.re-forensic-dossier {
+  background: rgba(10, 13, 18, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+
+.forensic-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.forensic-title-row h3 {
+  font-size: 20px;
+  color: #fff;
+  margin: 0;
+}
+
+.custody-badge {
+  font-size: 10.5px;
+  color: #ffc870;
+  letter-spacing: 1px;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.forensic-desc {
+  font-size: 13.5px;
+  color: #c0c7d2;
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+
+/* Patrick Jane's Micro-Observation */
+.re-jane-observation {
+  background: rgba(30, 16, 20, 0.6);
+  border-left: 3px solid #ffc870;
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  font-size: 12.5px;
+  color: #d1d7e0;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.re-jane-observation strong {
+  color: #ffc870;
+  font-size: 10.5px;
+  letter-spacing: 1px;
+  display: block;
+  font-style: normal;
+}
+
+/* Bottom Actions */
+.re-chamber-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}

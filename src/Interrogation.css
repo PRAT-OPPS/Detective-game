@@ -1,0 +1,419 @@
+/* ==========================================================
+   MENTALIST INTERROGATION ROOM & PSYCHOLOGICAL CHAT STYLES
+   ========================================================== */
+
+.interrogation-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 10%, #1c0a0e 0%, #0d0f14 60%, #050608 100%);
+  color: #e4e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: 50px;
+}
+
+.interrogation-layout {
+  max-width: 1250px;
+  margin: 24px auto 0;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 22px;
+}
+
+@media (max-width: 900px) {
+  .interrogation-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Suspect Profile Sidebar */
+.suspect-sidebar {
+  background: rgba(17, 21, 30, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: fit-content;
+}
+
+.suspect-portrait-box {
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.suspect-avatar-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #181d26;
+  border: 2px solid #ffc870;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 0 20px rgba(255, 200, 112, 0.3);
+}
+
+.suspect-name-title {
+  font-size: 20px;
+  color: #fff;
+  margin: 0 0 4px;
+}
+
+.suspect-role-sub {
+  font-size: 11.5px;
+  color: #ffc870;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Personality & Alibi Box */
+.suspect-intel-card {
+  background: rgba(11, 14, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 12.5px;
+}
+
+.intel-row {
+  margin-bottom: 8px;
+}
+
+.intel-row:last-child {
+  margin-bottom: 0;
+}
+
+.intel-label {
+  display: block;
+  font-size: 10px;
+  color: #79828e;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.intel-value {
+  color: #d1d7e0;
+}
+
+/* Live Psychological Trait Meters */
+.trait-meters-container {
+  background: rgba(11, 14, 20, 0.85);
+  border: 1px solid rgba(184, 38, 49, 0.3);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.trait-meter-title {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #c99342;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.trait-bar-item {
+  margin-bottom: 12px;
+}
+
+.trait-bar-item:last-child {
+  margin-bottom: 0;
+}
+
+.trait-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #b0b8c4;
+  margin-bottom: 5px;
+}
+
+.trait-meter-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.trait-meter-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trait-meter-fill.stress {
+  background: linear-gradient(90deg, #ffc870, #b82631);
+}
+
+.trait-meter-fill.deception {
+  background: linear-gradient(90deg, #38ef7d, #11998e);
+}
+
+.trait-meter-fill.guilt {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+}
+
+.trait-meter-fill.defensiveness {
+  background: linear-gradient(90deg, #f093fb, #f5576c);
+}
+
+/* Chat Room Chamber */
+.interrogation-chat-chamber {
+  background: rgba(17, 21, 30, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  height: 640px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.chat-chamber-header {
+  padding: 16px 20px;
+  background: rgba(13, 16, 22, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chat-chamber-title h2 {
+  font-size: 17px;
+  color: #fff;
+  margin: 0;
+}
+
+.chat-chamber-title span {
+  font-size: 11px;
+  color: #8b949e;
+}
+
+.switch-suspect-select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffc870;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  outline: none;
+}
+
+/* Chat Messages Area */
+.chat-messages-container {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chat-message-bubble {
+  max-width: 80%;
+  display: flex;
+  flex-direction: column;
+  animation: popIn 0.2s ease;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message-bubble.detective {
+  align-self: flex-end;
+}
+
+.chat-message-bubble.suspect {
+  align-self: flex-start;
+}
+
+.chat-message-bubble.jane {
+  align-self: center;
+  max-width: 90%;
+}
+
+.bubble-sender-name {
+  font-size: 10.5px;
+  margin-bottom: 4px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.chat-message-bubble.detective .bubble-sender-name {
+  color: #ffc870;
+  text-align: right;
+}
+
+.chat-message-bubble.suspect .bubble-sender-name {
+  color: #a5b0c0;
+}
+
+.bubble-content {
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.chat-message-bubble.detective .bubble-content {
+  background: linear-gradient(135deg, #8a141c, #4a0a10);
+  color: #ffffff;
+  border-top-right-radius: 2px;
+  border: 1px solid rgba(255, 200, 112, 0.3);
+}
+
+.chat-message-bubble.suspect .bubble-content {
+  background: rgba(26, 32, 44, 0.85);
+  color: #e4e7eb;
+  border-top-left-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.chat-message-bubble.jane .bubble-content {
+  background: rgba(45, 20, 26, 0.8);
+  border: 1px dashed rgba(255, 200, 112, 0.45);
+  color: #ffc870;
+  font-style: italic;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Typing Indicator */
+.typing-dots {
+  display: flex;
+  gap: 4px;
+  padding: 12px 16px;
+  background: rgba(26, 32, 44, 0.85);
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffc870;
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* Suggested Mentalist Quick Questions */
+.quick-questions-strip {
+  padding: 10px 16px;
+  background: rgba(11, 14, 20, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.quick-q-chip {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #b0b8c4;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quick-q-chip:hover {
+  background: rgba(184, 38, 49, 0.3);
+  border-color: #ffc870;
+  color: #fff;
+}
+
+/* Chat Input Bar */
+.chat-input-bar {
+  padding: 14px 18px;
+  background: rgba(13, 16, 22, 0.98);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-input-bar input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  padding: 11px 16px;
+  border-radius: 8px;
+  outline: none;
+  font-size: 13.5px;
+}
+
+.chat-input-bar input:focus {
+  border-color: #ffc870;
+  box-shadow: 0 0 10px rgba(255, 200, 112, 0.25);
+}
+
+.chat-send-btn {
+  background: linear-gradient(135deg, #a61c27, #680d14);
+  border: 1px solid rgba(255, 200, 112, 0.3);
+  color: #fff;
+  padding: 11px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.chat-send-btn:hover {
+  background: linear-gradient(135deg, #bf222f, #7d1019);
+}
+
+/* Conclude & Analysis Action */
+.conclude-interrogation-btn {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 200, 112, 0.3);
+  color: #ffc870;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.conclude-interrogation-btn:hover {
+  background: rgba(201, 147, 66, 0.2);
+}

@@ -1,0 +1,398 @@
+/* ==========================================================
+   SMOOTH, CLEAN CBI SUSPECTS DOSSIER DESIGN SYSTEM
+   ========================================================== */
+
+.suspects-vivid-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 10%, #1c0a0e 0%, #0d0f14 60%, #050608 100%);
+  color: #e4e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: 70px;
+}
+
+.suspects-main-container {
+  max-width: 1200px;
+  margin: 28px auto 0;
+  padding: 0 24px;
+}
+
+/* Header Banner */
+.suspects-hero-banner {
+  background: rgba(17, 21, 30, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 4px solid #b82631;
+  border-radius: 12px;
+  padding: 24px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  backdrop-filter: blur(12px);
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .suspects-hero-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.suspects-tag-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.cbi-badge-pill {
+  background: #b82631;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 1.5px;
+}
+
+.case-link-pill {
+  font-size: 11.5px;
+  color: #ffc870;
+  letter-spacing: 1px;
+}
+
+.suspects-hero-banner h1 {
+  font-size: 26px;
+  color: #ffffff;
+  margin: 0 0 6px;
+}
+
+.suspects-hero-banner p {
+  font-size: 13.5px;
+  color: #8b949e;
+  margin: 0;
+}
+
+/* Jane's Observation Box */
+.jane-mindset-box {
+  background: rgba(30, 16, 20, 0.6);
+  border: 1px dashed rgba(201, 147, 66, 0.4);
+  padding: 12px 18px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 440px;
+}
+
+.jane-avatar-ring {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #ffc870;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: #190a0e;
+  flex-shrink: 0;
+}
+
+.jane-quote-text strong {
+  display: block;
+  font-size: 10.5px;
+  letter-spacing: 1px;
+  color: #ffc870;
+}
+
+.jane-quote-text p {
+  font-size: 12px;
+  color: #d1d7e0;
+  font-style: italic;
+  margin: 2px 0 0;
+  line-height: 1.4;
+}
+
+/* Quick Metrics Row */
+.suspects-metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 900px) {
+  .suspects-metrics-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.metric-pill-card {
+  background: rgba(14, 17, 24, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.metric-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffc870;
+}
+
+.metric-data span {
+  font-size: 10px;
+  color: #79828e;
+  letter-spacing: 1px;
+  display: block;
+  font-weight: 700;
+}
+
+.metric-data strong {
+  font-size: 15px;
+  color: #ffffff;
+}
+
+/* Section Title */
+.section-headline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 10px;
+}
+
+.section-headline h2 {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.section-headline span {
+  font-size: 11px;
+  color: #ffc870;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+/* ==========================================================
+   SMOOTH 3-COLUMN SUSPECT DOSSIER GRID
+   ========================================================== */
+
+.suspect-dossier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 22px;
+  margin-bottom: 35px;
+}
+
+.suspect-dossier-card {
+  background: rgba(18, 22, 32, 0.85);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.suspect-dossier-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 200, 112, 0.45);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 25px rgba(184, 38, 49, 0.2);
+}
+
+/* Card Header & Avatar */
+.card-stamp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.dossier-file-stamp {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #8b949e;
+  font-weight: 700;
+}
+
+.threat-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.threat-tag.high {
+  background: rgba(184, 38, 49, 0.25);
+  color: #ff7882;
+  border: 1px solid rgba(184, 38, 49, 0.5);
+}
+
+.threat-tag.moderate {
+  background: rgba(201, 147, 66, 0.2);
+  color: #ffc870;
+  border: 1px solid rgba(201, 147, 66, 0.4);
+}
+
+.suspect-profile-center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.suspect-badge-portrait {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #222938 0%, #121620 100%);
+  border: 2px solid rgba(255, 200, 112, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
+.suspect-title-group h3 {
+  font-size: 20px;
+  color: #ffffff;
+  margin: 0 0 3px;
+}
+
+.suspect-title-group span {
+  font-size: 12px;
+  color: #ffc870;
+  font-weight: 600;
+}
+
+/* Alibi & Statement Excerpt */
+.dossier-alibi-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #c0c7d2;
+  margin-bottom: 14px;
+}
+
+.dossier-alibi-strip strong {
+  color: #ffc870;
+}
+
+.statement-transcript-box {
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid #b82631;
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  font-size: 12.5px;
+  color: #d1d7e0;
+  font-style: italic;
+  line-height: 1.45;
+  margin-bottom: 16px;
+}
+
+/* Psychological Profile Snippet */
+.psych-intel-box {
+  background: rgba(11, 14, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  color: #8b949e;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.psych-intel-box strong {
+  color: #c99342;
+  display: block;
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-bottom: 3px;
+}
+
+/* Interrogate CTA Button */
+.card-interrogate-btn {
+  background: linear-gradient(135deg, #a61c27, #680d14);
+  color: #ffffff;
+  border: 1px solid rgba(255, 200, 112, 0.3);
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(166, 28, 39, 0.35);
+}
+
+.card-interrogate-btn:hover {
+  background: linear-gradient(135deg, #bf222f, #7d1019);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(191, 34, 47, 0.5);
+}
+
+/* Bottom Navigation Actions */
+.suspects-bottom-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.bottom-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #c9d1d9;
+  padding: 11px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bottom-action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 200, 112, 0.4);
+}
+
+.bottom-action-btn.primary {
+  background: linear-gradient(135deg, #a61c27, #680d14);
+  border-color: rgba(255, 200, 112, 0.35);
+  color: #fff;
+}
+
+.bottom-action-btn.primary:hover {
+  background: linear-gradient(135deg, #bf222f, #7d1019);
+}

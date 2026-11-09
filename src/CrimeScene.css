@@ -1,0 +1,824 @@
+/* ==========================================================
+   VIVID MENTALIST CRIME SCENE & INTERACTIVE ROOM STYLES
+   ========================================================== */
+
+.vivid-crime-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 10%, #1a0a0e 0%, #0d0f14 60%, #050608 100%);
+  color: #e4e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: 60px;
+}
+
+/* Navigation Header */
+.vivid-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 5%;
+  background: rgba(10, 12, 17, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(184, 38, 49, 0.38);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+}
+
+.back-case-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #c9d1d9;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-case-btn:hover {
+  background: rgba(184, 38, 49, 0.25);
+  border-color: #b82631;
+  color: #fff;
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #ffc870;
+  font-weight: 700;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #8b949e;
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.toggle-btn.active {
+  background: linear-gradient(135deg, rgba(184, 38, 49, 0.4), rgba(201, 147, 66, 0.3));
+  border-color: #ffc870;
+  color: #ffc870;
+  box-shadow: 0 0 12px rgba(255, 200, 112, 0.35);
+}
+
+/* Page Layout */
+.crime-main-content {
+  width: min(1490px, calc(100% - 48px));
+  margin: 24px auto 0;
+  padding: 0;
+}
+
+/* Hero Dossier Banner */
+.crime-dossier-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(115deg, rgba(20, 18, 23, 0.96), rgba(14, 16, 22, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-left: 4px solid #b82631;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.dossier-meta {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.case-id-tag {
+  background: #b82631;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.location-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #ffc870;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.dossier-text h1 {
+  font-size: clamp(27px, 2.2vw, 35px);
+  margin: 0 0 6px;
+  color: #fff;
+}
+
+.dossier-text p {
+  color: #8b949e;
+  font-size: 13.5px;
+  margin: 0;
+}
+
+.jane-tip-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(30, 16, 20, 0.6);
+  border: 1px dashed rgba(201, 147, 66, 0.4);
+  padding: 12px 18px;
+  border-radius: 8px;
+  max-width: 440px;
+}
+
+.jane-avatar-mini {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid #ffc870;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.jane-quote-wrapper strong {
+  display: block;
+  font-size: 11px;
+  color: #ffc870;
+  letter-spacing: 1px;
+}
+
+.jane-quote-wrapper p {
+  font-size: 12px;
+  color: #e4e7eb;
+  margin: 2px 0 0;
+  font-style: italic;
+}
+
+/* ==========================================================
+   INTERACTIVE ROOM CANVAS & HOTSPOTS
+   ========================================================== */
+
+.interactive-scene-frame {
+  position: relative;
+  width: 100%;
+  height: clamp(430px, 46vw, 650px);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #181519;
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.72), 0 0 36px rgba(184, 38, 49, 0.13);
+  cursor: crosshair;
+}
+
+.scene-background-photo {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 54%;
+  transition: filter 0.4s ease, transform 0.6s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.interactive-scene-frame::after {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(7, 8, 10, 0.08), transparent 34%, rgba(5, 5, 7, 0.36));
+  box-shadow: inset 0 0 110px rgba(0, 0, 0, 0.43);
+}
+
+/* Mentalist Perception Mode Visual Filter */
+.interactive-scene-frame.perception-mode .scene-background-photo {
+  filter: contrast(125%) saturate(140%) sepia(25%);
+  transform: scale(1.02);
+}
+
+/* Dynamic Flashlight Overlay */
+.flashlight-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    transparent 0%,
+    rgba(3, 4, 6, 0.75) 100%
+  );
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+/* Ambient Grid HUD */
+.hud-coordinates {
+  position: absolute;
+  bottom: 14px;
+  left: 18px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 11px;
+  color: #ffc870;
+  letter-spacing: 1px;
+  border: 1px solid rgba(255, 200, 112, 0.2);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Hotspots on Scene */
+.scene-hotspot-pin {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 50%;
+  box-shadow: none;
+  color: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scene-hotspot-pin:hover {
+  background: transparent;
+  box-shadow: none;
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.scene-hotspot-pin:focus-visible {
+  outline: 2px solid #fff1c9;
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+.pin-core {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #b82631 30%, #5a0c13 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: 2px solid #ffc870;
+  box-shadow: 0 0 15px rgba(184, 38, 49, 0.7);
+  transition: all 0.3s ease;
+}
+
+.pin-pulse-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid #ffc870;
+  opacity: 0.8;
+  animation: hotspot-pulse 2s infinite cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes hotspot-pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.scene-hotspot-pin.collected .pin-core {
+  background: #194d2e;
+  border-color: #5cdb95;
+  box-shadow: 0 0 10px rgba(92, 219, 149, 0.4);
+}
+
+.scene-hotspot-pin.collected .pin-pulse-ring {
+  border-color: #5cdb95;
+}
+
+.hotspot-tooltip {
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 18, 25, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 200, 112, 0.4);
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.scene-hotspot-pin:hover .hotspot-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+.scene-hotspot-pin:focus-visible .hotspot-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* ==========================================================
+   PROGRESS BAR & COLLECTED SUMMARY
+   ========================================================== */
+
+.scene-footer-controls {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .scene-footer-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+.investigation-progress-card {
+  background: linear-gradient(120deg, rgba(18, 20, 27, 0.96), rgba(15, 16, 22, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  padding: 18px 22px;
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.progress-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffc870;
+}
+
+.progress-count {
+  font-size: 13px;
+  color: #8b949e;
+}
+
+.meter-track {
+  width: 100%;
+  height: 9px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #b82631, #ffc870);
+  border-radius: 10px;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 10px rgba(255, 200, 112, 0.4);
+}
+
+.scene-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.proceed-btn {
+  background: linear-gradient(135deg, #a61c27, #680d14);
+  border: 1px solid rgba(255, 200, 112, 0.35);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(166, 28, 39, 0.3);
+}
+
+.proceed-btn:hover {
+  background: linear-gradient(135deg, #bf222f, #7d1019);
+  transform: translateY(-1px);
+}
+
+.secondary-action-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #c9d1d9;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.secondary-action-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+/* ==========================================================
+   JANE'S DEDUCTION & CLUE INSPECTION MODAL
+   ========================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 10, 0.85);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.clue-inspection-dialog {
+  background: rgba(18, 22, 32, 0.95);
+  border: 1px solid rgba(184, 38, 49, 0.4);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 540px;
+  padding: 30px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(184, 38, 49, 0.2);
+  position: relative;
+  animation: slideUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px) scale(0.97);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s ease;
+}
+
+.close-modal-btn:hover {
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+  transform: none;
+}
+
+.clue-badge-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.clue-large-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+  background: radial-gradient(circle, rgba(184, 38, 49, 0.3) 0%, rgba(13, 16, 22, 0.8) 100%);
+  border: 1px solid rgba(255, 200, 112, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.clue-meta-titles h3 {
+  font-size: 20px;
+  margin: 0 0 3px;
+  color: #fff;
+}
+
+.clue-meta-titles span {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #c99342;
+  font-weight: 700;
+}
+
+.clue-evidence-body {
+  background: rgba(11, 14, 20, 0.7);
+  border-radius: 8px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 18px;
+}
+
+.clue-evidence-body p {
+  color: #e4e7eb;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Patrick Jane's Observation Box */
+.mentalist-dialogue-card {
+  background: rgba(30, 16, 20, 0.6);
+  border-left: 3px solid #ffc870;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 22px;
+}
+
+.dialogue-speaker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #ffc870;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.mentalist-dialogue-card p {
+  font-size: 13px;
+  color: #d1d7e0;
+  font-style: italic;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.collect-evidence-action-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #a61c27, #680d14);
+  border: 1px solid rgba(255, 200, 112, 0.35);
+  color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.collect-evidence-action-btn:hover {
+  background: linear-gradient(135deg, #bf222f, #7d1019);
+}
+
+.collect-evidence-action-btn.collected-state {
+  background: #194d2e;
+  border-color: #5cdb95;
+  cursor: default;
+}
+
+@media (max-width: 980px) {
+  .vivid-navbar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 14px 24px;
+  }
+
+  .nav-actions {
+    margin-left: auto;
+  }
+
+  .crime-dossier-banner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .jane-tip-card {
+    width: 100%;
+    max-width: none;
+  }
+
+  .interactive-scene-frame {
+    height: clamp(420px, 58vw, 560px);
+  }
+}
+
+@media (max-width: 640px) {
+  .vivid-navbar {
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .nav-left {
+    width: 100%;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .back-case-btn {
+    min-height: 40px;
+  }
+
+  .brand-badge {
+    font-size: 10px;
+  }
+
+  .nav-actions {
+    width: 100%;
+    margin: 0;
+    gap: 7px;
+  }
+
+  .toggle-btn {
+    min-height: 40px;
+    padding: 7px 10px;
+  }
+
+  .toggle-btn span {
+    font-size: 11px;
+  }
+
+  .crime-main-content {
+    width: calc(100% - 28px);
+    margin-top: 16px;
+  }
+
+  .crime-dossier-banner {
+    padding: 17px;
+    margin-bottom: 16px;
+  }
+
+  .dossier-meta {
+    flex-wrap: wrap;
+  }
+
+  .dossier-text h1 {
+    font-size: 27px;
+    line-height: 1.15;
+  }
+
+  .dossier-text p {
+    line-height: 1.5;
+  }
+
+  .jane-tip-card {
+    align-items: flex-start;
+    gap: 11px;
+    padding: 12px;
+  }
+
+  .interactive-scene-frame {
+    height: min(510px, 112vw);
+    min-height: 360px;
+    border-radius: 11px;
+  }
+
+  .scene-hotspot-pin {
+    width: 48px;
+    height: 48px;
+  }
+
+  .pin-core {
+    width: 38px;
+    height: 38px;
+  }
+
+  .hotspot-tooltip {
+    display: none;
+  }
+
+  .hud-coordinates {
+    left: 9px;
+    bottom: 9px;
+    font-size: 10px;
+  }
+
+  .scene-footer-controls {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 15px;
+  }
+
+  .investigation-progress-card {
+    padding: 15px;
+  }
+
+  .progress-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .progress-title {
+    font-size: 13px;
+  }
+
+  .progress-count {
+    font-size: 12px;
+  }
+
+  .scene-action-buttons {
+    gap: 8px;
+  }
+
+  .proceed-btn,
+  .secondary-action-btn {
+    min-height: 44px;
+  }
+
+  .clue-inspection-dialog {
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    padding: 23px 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin-pulse-ring,
+  .interactive-scene-frame,
+  .scene-background-photo,
+  .scene-hotspot-pin,
+  .meter-fill {
+    animation: none;
+    transition: none;
+  }
+}
