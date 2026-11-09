@@ -9,7 +9,8 @@ import {
   LayoutDashboard,
   LogOut,
   LogIn,
-  UserCheck
+  Activity,
+  Zap
 } from "lucide-react";
 import { getCurrentUser, logoutAgent } from "../utils/auth";
 
@@ -18,7 +19,7 @@ function Navbar({ caseId, activePage = "dashboard" }) {
   const [currentUser, setCurrentUser] = useState(() => getCurrentUser());
 
   useEffect(() => {
-    // Sync active user if state changes
+    // Sync active agent profile
     setCurrentUser(getCurrentUser());
   }, []);
 
@@ -34,6 +35,12 @@ function Navbar({ caseId, activePage = "dashboard" }) {
       icon: LayoutDashboard,
       path: "/",
       key: "dashboard"
+    },
+    {
+      name: "Lie Detector [Arcade]",
+      icon: Zap,
+      path: "/mini-game",
+      key: "mini-game"
     },
     {
       name: "Case Details",
@@ -58,11 +65,18 @@ function Navbar({ caseId, activePage = "dashboard" }) {
       icon: Users,
       path: `/suspects/${caseId}`,
       key: "suspects"
+    },
+    {
+      name: "Lie Detector",
+      icon: Activity,
+      path: caseId ? `/lie-detector/${caseId}` : "/lie-detector",
+      key: "lie-detector"
     }
   ];
 
   return (
     <nav className="main-navbar">
+      {/* Brand Logo & Title */}
       <div className="navbar-brand" onClick={() => navigate("/")}>
         <span className="brand-icon">☕</span>
         <div>
@@ -71,9 +85,17 @@ function Navbar({ caseId, activePage = "dashboard" }) {
         </div>
       </div>
 
+      {/* Navigation Links */}
       <div className="navbar-links">
         {navigation
-          .filter((link) => caseId || link.key === "dashboard")
+          // Shows Dashboard, Arcade, & Lie Detector everywhere; shows Case tabs when inside a case
+          .filter(
+            (link) =>
+              caseId ||
+              link.key === "dashboard" ||
+              link.key === "mini-game" ||
+              link.key === "lie-detector"
+          )
           .map((link) => {
             const Icon = link.icon;
             return (

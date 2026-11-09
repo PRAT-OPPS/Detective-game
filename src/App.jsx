@@ -4,7 +4,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Import CSS
 import "./App.css";
-import "./MentalistAuth.css"; // <-- Add this line
+import "./MentalistAuth.css";
+
 
 // Import all game pages
 import Home from "./webpages/Home";
@@ -14,6 +15,9 @@ import EvidenceRoom from "./webpages/EvidenceRoom";
 import Suspects from "./webpages/Suspects";
 import Interrogation from "./webpages/Interrogation";
 import FinalAccusation from "./webpages/FinalAccusation";
+import DetroitInterrogation from "./webpages/DetroitInterrogation";
+// 1. Add import at the top of src/App.jsx:
+import LieDetectorMiniGame from "./webpages/LieDetectorMiniGame";
 
 // Import Mentalist Authentication pages
 import Login from "./webpages/Login";
@@ -47,6 +51,11 @@ function App() {
 
         {/* Final Accusation */}
         <Route path="/accusation/:id" element={<FinalAccusation />} />
+
+        {/* Standalone Lie Detector Mini-Game (Detroit: Become Human Style) */}
+        <Route path="/lie-detector" element={<DetroitInterrogation />} />
+        <Route path="/lie-detector/:id" element={<DetroitInterrogation />} />
+        <Route path="/mini-game" element={<LieDetectorMiniGame />} />
 
         {/* Invalid URL */}
         <Route path="*" element={<Navigate to="/" replace />} />

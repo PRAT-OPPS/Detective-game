@@ -1,0 +1,606 @@
+/* ==========================================================
+   DETROIT: BECOME HUMAN × THE MENTALIST INTERROGATION STYLES
+   ========================================================== */
+
+.detroit-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 10%, #15080c 0%, #0b0e14 60%, #040507 100%);
+  color: #e4e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: 60px;
+}
+
+.detroit-container {
+  max-width: 1250px;
+  margin: 20px auto 0;
+  padding: 0 20px;
+}
+
+/* Header */
+.detroit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(16, 20, 28, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 4px solid #b82631;
+  border-radius: 12px;
+  padding: 18px 24px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(14px);
+}
+
+.detroit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #b82631;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+}
+
+.detroit-title-group h1 {
+  font-size: 22px;
+  color: #fff;
+  margin: 2px 0 0;
+}
+
+.detroit-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.detroit-config-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffc870;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.detroit-select-suspect {
+  background: #141824;
+  border: 1px solid rgba(255, 200, 112, 0.35);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+/* AI Drawer */
+.ai-config-drawer {
+  background: rgba(22, 14, 18, 0.95);
+  border: 1px solid #b82631;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.ai-config-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffc870;
+  font-size: 13.5px;
+  margin-bottom: 6px;
+}
+
+.ai-config-drawer p {
+  font-size: 12px;
+  color: #8b949e;
+  margin: 0 0 12px;
+}
+
+.ai-key-input-row {
+  display: flex;
+  gap: 10px;
+}
+
+.ai-key-input-row input {
+  flex: 1;
+  background: #0d0f14;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12.5px;
+}
+
+.ai-toggle-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ai-toggle-btn.active {
+  background: #5cdb95;
+  color: #0c1c14;
+  border-color: #5cdb95;
+}
+
+/* Layout Grid */
+.detroit-layout-grid {
+  display: grid;
+  grid-template-columns: 430px 1fr;
+  gap: 22px;
+}
+
+@media (max-width: 950px) {
+  .detroit-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Suspect Cam & Biometric Feed */
+.detroit-cam-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.suspect-cam-feed {
+  width: 100%;
+  height: 290px;
+  border-radius: 14px;
+  background: #090c10;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+}
+
+.cam-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: contrast(1.05) brightness(0.92);
+}
+
+.cam-scanline-overlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+}
+
+.cam-hud-stats {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-family: monospace;
+  font-size: 11px;
+  color: #5cdb95;
+  background: rgba(5, 8, 12, 0.75);
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+/* Micro-Expression Alert Box */
+.micro-tell-alert-box {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  background: rgba(184, 38, 49, 0.95);
+  border: 1px solid #ffc870;
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 0 25px rgba(184, 38, 49, 0.8);
+  animation: pulseGlow 0.4s infinite alternate;
+  z-index: 20;
+}
+
+@keyframes pulseGlow {
+  from { box-shadow: 0 0 15px rgba(184, 38, 49, 0.6); }
+  to { box-shadow: 0 0 35px rgba(255, 200, 112, 0.9); }
+}
+
+.tell-alert-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #ffc870;
+  letter-spacing: 0.5px;
+}
+
+.tell-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffc870;
+  box-shadow: 0 0 8px #ffc870;
+}
+
+.micro-tell-alert-box p {
+  font-size: 12.5px;
+  color: #ffffff;
+  margin: 4px 0 8px;
+  font-weight: 600;
+}
+
+.tell-countdown-strip {
+  width: 100%;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.tell-countdown-fill {
+  height: 100%;
+  background: #ffc870;
+  transition: width 0.03s linear;
+}
+
+.catch-tell-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ffc870, #e6a73c);
+  color: #1a080d;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.catch-tell-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+/* Stress Gauge */
+.stress-gauge-card {
+  background: rgba(14, 18, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.stress-gauge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.gauge-label-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.detroit-stress-meter {
+  width: 100%;
+  height: 14px;
+  background: #090c10;
+  border-radius: 7px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.stress-fill-bar {
+  height: 100%;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.optimal-zone-bracket {
+  position: absolute;
+  left: 70%;
+  width: 15%;
+  top: 0;
+  bottom: 0;
+  background: rgba(92, 219, 149, 0.25);
+  border-left: 2px dashed #5cdb95;
+  border-right: 2px dashed #5cdb95;
+  pointer-events: none;
+}
+
+.stress-zone-guide {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #79828e;
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+.sweet-marker {
+  color: #5cdb95;
+  letter-spacing: 0.5px;
+}
+
+/* Jane Psych Bubble */
+.jane-psych-bubble {
+  background: rgba(30, 16, 20, 0.65);
+  border-left: 3px solid #ffc870;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.jane-psych-bubble strong {
+  font-size: 10.5px;
+  color: #ffc870;
+  letter-spacing: 1px;
+  display: block;
+}
+
+.jane-psych-bubble p {
+  font-size: 12px;
+  color: #d1d7e0;
+  margin: 3px 0 0;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Dialogue Section */
+.detroit-dialogue-section {
+  background: rgba(14, 18, 26, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.detroit-transcript-box {
+  flex: 1;
+  min-height: 280px;
+  max-height: 380px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 8px;
+  margin-bottom: 16px;
+}
+
+.detroit-speech-node {
+  max-width: 85%;
+  display: flex;
+  flex-direction: column;
+}
+
+.detroit-speech-node.detective {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.detroit-speech-node.suspect {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.speech-speaker-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #8b949e;
+  margin-bottom: 3px;
+}
+
+.detroit-speech-node.detective .speech-speaker-tag {
+  color: #ffc870;
+}
+
+.speech-bubble {
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.detroit-speech-node.detective .speech-bubble {
+  background: linear-gradient(135deg, #a61c27, #680d14);
+  color: #fff;
+  border: 1px solid rgba(255, 200, 112, 0.3);
+  border-top-right-radius: 2px;
+}
+
+.detroit-speech-node.suspect .speech-bubble {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e4e7eb;
+  border-top-left-radius: 2px;
+}
+
+/* Confession Breakthrough Banner */
+.confession-breakthrough-banner {
+  background: radial-gradient(circle at 50% 0%, rgba(92, 219, 149, 0.25) 0%, rgba(14, 28, 20, 0.95) 100%);
+  border: 2px solid #5cdb95;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(92, 219, 149, 0.3);
+}
+
+.banner-badge {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #5cdb95;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.confession-breakthrough-banner h3 {
+  color: #fff;
+  font-size: 20px;
+  margin: 0 0 6px;
+}
+
+.confession-breakthrough-banner p {
+  color: #c9d1d9;
+  font-size: 13px;
+  margin: 0 0 14px;
+}
+
+.proceed-tribunal-btn {
+  background: #5cdb95;
+  color: #0b1a12;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Breakdown Warning */
+.breakdown-warning-banner {
+  background: rgba(184, 38, 49, 0.3);
+  border: 1px solid #b82631;
+  color: #ff7882;
+  padding: 10px 14px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+/* Detroit Approach Choices */
+.detroit-approaches-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.approach-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.approach-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 200, 112, 0.4);
+  transform: translateY(-2px);
+}
+
+.approach-btn strong {
+  display: block;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.approach-btn span {
+  font-size: 10.5px;
+  color: #8b949e;
+}
+
+.approach-btn.pressure:hover:not(:disabled) { border-color: #ff4d4f; }
+.approach-btn.sympathy:hover:not(:disabled) { border-color: #5cdb95; }
+.approach-btn.bluff:hover:not(:disabled) { border-color: #ffc870; }
+
+/* Fatal Breakthrough Button */
+.breakthrough-fatal-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ffc870 0%, #b82631 100%);
+  color: #fff;
+  border: 1px solid #ffc870;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 0 25px rgba(255, 200, 112, 0.5);
+  animation: breakthroughPulse 0.5s infinite alternate;
+}
+
+@keyframes breakthroughPulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.015); }
+}
+
+/* Custom Input Bar */
+.detroit-input-form {
+  display: flex;
+  gap: 10px;
+}
+
+.detroit-input-form input {
+  flex: 1;
+  background: rgba(10, 13, 18, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.detroit-input-form button {
+  background: linear-gradient(135deg, #a61c27, #680d14);
+  color: #fff;
+  border: 1px solid rgba(255, 200, 112, 0.3);
+  padding: 0 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}

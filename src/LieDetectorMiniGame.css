@@ -1,0 +1,513 @@
+/* ==========================================================
+   CBI LIE DETECTOR ARCADE MINI-GAME STYLES
+   ========================================================== */
+
+.arcade-lie-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 15%, #18080c 0%, #0d0f14 60%, #050608 100%);
+  color: #e4e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: 60px;
+}
+
+.arcade-lie-container {
+  max-width: 1200px;
+  margin: 22px auto 0;
+  padding: 0 20px;
+}
+
+/* Top Arcade HUD */
+.arcade-hud-header {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  background: rgba(16, 20, 28, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px 22px;
+  margin-bottom: 22px;
+  backdrop-filter: blur(12px);
+}
+
+.hud-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.hud-label {
+  font-size: 10px;
+  color: #8b949e;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.hud-val {
+  font-size: 22px;
+  color: #ffffff;
+  font-family: monospace;
+}
+
+.hud-val.gold { color: #ffc870; }
+.hud-val.yellow { color: #5cdb95; }
+
+.strikes-wrap {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+/* Modal Card (Start / Victory / Game Over) */
+.arcade-modal-card {
+  background: rgba(18, 22, 32, 0.95);
+  border: 1px solid rgba(255, 200, 112, 0.35);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  max-width: 720px;
+  margin: 30px auto;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+}
+
+.arcade-badge {
+  display: inline-block;
+  background: #b82631;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.arcade-modal-card h1 {
+  font-size: 32px;
+  color: #ffffff;
+  margin: 0 0 12px;
+}
+
+.arcade-modal-desc {
+  font-size: 14.5px;
+  color: #a4adba;
+  line-height: 1.55;
+  margin: 0 0 28px;
+}
+
+.suspect-preview-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.suspect-preview-pill {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+}
+
+.suspect-preview-pill img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.suspect-preview-pill strong {
+  display: block;
+  font-size: 12.5px;
+  color: #fff;
+}
+
+.suspect-preview-pill span {
+  font-size: 10px;
+  color: #ffc870;
+}
+
+.arcade-launch-btn {
+  background: linear-gradient(135deg, #a61c27, #680d14);
+  color: #ffffff;
+  border: 1px solid rgba(255, 200, 112, 0.4);
+  padding: 16px 36px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 30px rgba(166, 28, 39, 0.5);
+  transition: all 0.2s ease;
+}
+
+.arcade-launch-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.arcade-launch-btn.retry { background: linear-gradient(135deg, #555, #222); }
+.arcade-launch-btn.next { background: linear-gradient(135deg, #1c683b, #104224); border-color: #5cdb95; }
+
+.confession-quote {
+  background: rgba(0, 0, 0, 0.5);
+  border-left: 3px solid #5cdb95;
+  padding: 14px 18px;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  font-size: 14px;
+  color: #e4e7eb;
+  line-height: 1.5;
+  margin: 16px 0 24px;
+}
+
+.final-score-callout {
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffc870;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+
+/* Active Stage Grid */
+.arcade-stage-grid {
+  display: grid;
+  grid-template-columns: 440px 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 950px) {
+  .arcade-stage-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Suspect Cam */
+.arcade-cam-box {
+  background: #090c10;
+  border-radius: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  height: 380px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+.cam-feed-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: contrast(1.05) brightness(0.9);
+}
+
+.cam-hud-crosshairs {
+  position: absolute;
+  inset: 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+}
+
+.target-hint-indicator {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(184, 38, 49, 0.9);
+  color: #ffc870;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 1px;
+}
+
+/* Tell Popup */
+.active-tell-popup {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  background: rgba(184, 38, 49, 0.95);
+  border: 2px solid #ffc870;
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 0 35px rgba(255, 200, 112, 0.8);
+  animation: tellGlow 0.35s infinite alternate;
+  z-index: 20;
+}
+
+@keyframes tellGlow {
+  from { transform: scale(1); }
+  to { transform: scale(1.02); }
+}
+
+.tell-alert-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ffc870;
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.active-tell-popup p {
+  color: #fff;
+  font-size: 13px;
+  margin: 4px 0 10px;
+  font-weight: 600;
+}
+
+.countdown-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.countdown-bar-fill {
+  height: 100%;
+  background: #ffc870;
+  transition: width 0.03s linear;
+}
+
+.smash-tell-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ffc870, #e6a73c);
+  color: #17080c;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.cam-bottom-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.75);
+  padding: 8px 14px;
+  display: flex;
+  justify-content: space-between;
+  font-family: monospace;
+  font-size: 11px;
+  color: #5cdb95;
+}
+
+/* Controls Box */
+.arcade-controls-box {
+  background: rgba(16, 20, 28, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Stress Bar */
+.detroit-stress-wrapper {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 20px;
+  border-radius: 10px;
+}
+
+.stress-row-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.stress-title-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.detroit-bar-track {
+  width: 100%;
+  height: 16px;
+  background: #0d0f14;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detroit-bar-fill {
+  height: 100%;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.detroit-sweet-zone {
+  position: absolute;
+  left: 70%;
+  width: 15%;
+  top: 0;
+  bottom: 0;
+  background: rgba(92, 219, 149, 0.3);
+  border-left: 2px dashed #5cdb95;
+  border-right: 2px dashed #5cdb95;
+}
+
+.stress-sub-guide {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #79828e;
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+.sweet-guide { color: #5cdb95; }
+
+/* Tactics */
+.tactics-label {
+  font-size: 10.5px;
+  color: #ffc870;
+  font-weight: 800;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.tactics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.tactic-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.tactic-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 200, 112, 0.35);
+}
+
+.tactic-btn strong {
+  display: block;
+  font-size: 13px;
+}
+
+.tactic-btn span {
+  font-size: 10.5px;
+  color: #8b949e;
+}
+
+/* Powerups */
+.powerups-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.powerup-btn {
+  background: rgba(255, 200, 112, 0.1);
+  border: 1px solid rgba(255, 200, 112, 0.3);
+  color: #ffc870;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.powerup-btn.spent {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Fatal Strike */
+.fatal-contradiction-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.fatal-contradiction-btn.ready {
+  background: linear-gradient(135deg, #5cdb95 0%, #1e693e 100%);
+  color: #0b1a11;
+  border: 1px solid #5cdb95;
+  box-shadow: 0 0 30px rgba(92, 219, 149, 0.5);
+  animation: readyPulse 0.5s infinite alternate;
+}
+
+@keyframes readyPulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.02); }
+}
+
+.fatal-contradiction-btn.locked {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #6a737d;
+  cursor: not-allowed;
+}
+
+/* Jane Quote */
+.jane-arcade-quote {
+  background: rgba(30, 16, 20, 0.65);
+  border-left: 3px solid #ffc870;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.jane-arcade-quote p {
+  font-size: 12.5px;
+  color: #e4e7eb;
+  margin: 0;
+  font-style: italic;
+  line-height: 1.45;
+}
