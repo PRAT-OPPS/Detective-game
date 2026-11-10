@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { cases } from "../data/cases";
 import { getCurrentUser } from "../utils/auth";
+import { soundManager } from "../utils/soundManager";
 import "../Interrogation.css";
 
 import {
@@ -18,13 +19,119 @@ import {
   Gavel
 } from "lucide-react";
 
+// Case-specific suggested interrogation prompts
+const CASE_SUGGESTED_QUESTIONS = {
+  1: [
+    "Where were you at 11:45 PM when the watch stopped?",
+    "Explain the threatening letter found in the study.",
+    "Who had access to the silver key?",
+    "Why are you clenching your hands?"
+  ],
+  2: [
+    "Where were you at sunset when the tide came in?",
+    "Why was the surfboard wax scraped?",
+    "Did you see what happened by the pier?",
+    "Why are you avoiding eye contact?"
+  ],
+  3: [
+    "Explain your 18k gold cufflink wedged in Arthur's chaise.",
+    "Who spiked Arthur's glass with industrial potassium cyanide?",
+    "Why does the elevator log show a descent at 10:52 PM?",
+    "Why was the brass metronome ticking if Arthur despised it?"
+  ]
+};
+
 // In-Character Psychological Dialogue Generation
 function generateSuspectResponse(suspect, userMessage, caseId) {
   const msg = userMessage.toLowerCase();
   const name = suspect.name;
+  const numId = Number(caseId);
 
-  // Case 2: Red Tide Specific Responses
-  if (Number(caseId) === 2) {
+  // ==========================================
+  // CASE 3: The Case of the Hollow Maestro
+  // ==========================================
+  if (numId === 3) {
+    if (msg.includes("cufflink") || msg.includes("gold") || msg.includes("balance") || msg.includes("chaise")) {
+      if (name.includes("Julian")) {
+        return "My cufflinks? Bespoke 18-karat gold, commissioned in Zurich. I might have lost one while reviewing art appraisals with Arthur earlier in the week. Clinging to jewelry forensics is rather desperate, detective.";
+      }
+      if (name.includes("Evelyn")) {
+        return "Julian always flaunted those obnoxious gold cufflinks. When I slipped past the gallery at 9:30 PM, Arthur's chaise was empty, but Julian's amber cologne was still hanging thick in the foyer.";
+      }
+      if (name.includes("Isaac")) {
+        return "I noticed that gold cufflink wedged in the chaise woodwork yesterday afternoon. Pendelton told me to leave it—he said a trap works best when the bait glistens.";
+      }
+      return "Cufflinks? I know nothing of Arthur's personal jewelry. I was strictly his neurological and medical advisor.";
+    }
+
+    if (msg.includes("cyanide") || msg.includes("poison") || msg.includes("tonic") || msg.includes("tumbler") || msg.includes("drink") || msg.includes("glass")) {
+      if (name.includes("Julian")) {
+        return "Arthur had a lifelong ritual of drinking cold tonic water to settle his gastric palpitations before tense business arguments. If someone introduced potassium salts into his glass, check with someone who had access to industrial chemicals.";
+      }
+      if (name.includes("Sterling")) {
+        return "Cyanide is an unrefined industrial leaching reagent! As a certified physician, I prescribe pharmaceutical anti-arrhythmics, not gold-mine poisons! I brought him cardiovascular drops which he dismissed at the door!";
+      }
+      if (name.includes("Evelyn")) {
+        return "I saw that crystal tumbler on the table when I took back my sketches... it was still full. Arthur hadn't touched it yet. Oh god... whoever came in after me watched him drink it!";
+      }
+      return "Tonic water was Pendelton's victory drink. Every time he broke a collector down with psychological profiling, he poured himself a glass. He died drinking his own triumph.";
+    }
+
+    if (msg.includes("mirror") || msg.includes("metronome") || msg.includes("gramophone") || msg.includes("chopin")) {
+      if (name.includes("Julian")) {
+        return "Arthur was an insufferable theatrical synesthete who fancied himself a maestro of human flaws. The metronome and Chopin Nocturne were obviously part of his own dramatic suicide staging.";
+      }
+      if (name.includes("Evelyn")) {
+        return "Arthur HATED mechanical metronomes! He had synesthesia and perfect pitch—monotonous clicking gave him blinding migraines! Whoever wound that metronome didn't know him at all!";
+      }
+      if (name.includes("Isaac")) {
+        return "That vanity mirror was angled precisely at forty-five degrees toward the mahogany door. Pendelton didn't position it to admire his own reflection; he wanted to see who entered behind his back.";
+      }
+      return "Chopin in C Minor was Arthur's self-diagnosed acoustic trigger for distress. I noted it in his confidential clinical charts weeks ago.";
+    }
+
+    if (msg.includes("elevator") || msg.includes("log") || msg.includes("time") || msg.includes("10:52") || msg.includes("10:30")) {
+      if (name.includes("Julian")) {
+        return "The elevator log? Digital system clocks drift constantly in luxury high-rises. I was already seated at the bistro on 4th Street by 10:30 PM. Speak to the maître d'.";
+      }
+      if (name.includes("Sterling")) {
+        return "My vehicle was clocked exiting the underground parking garage at 10:35 PM sharp! The street security feeds will completely exonerate me!";
+      }
+      return "The private penthouse elevator requires a registered biometric keycard. Only Pendelton and Julian Vance possessed master executive access.";
+    }
+
+    if (msg.includes("ledger") || msg.includes("money") || msg.includes("launder") || msg.includes("audit") || msg.includes("embezzle") || msg.includes("shares")) {
+      if (name.includes("Julian")) {
+        return "Careful, detective. Defamation carries devastating legal repercussions. Pendelton Vance Fine Art is an unimpeachable partnership. Arthur was hallucinating irregularities due to his failing cognition.";
+      }
+      return "Arthur had uncovered millions in forged estate imports laundered through European auctions. He gave Julian until 9:00 AM this morning to surrender his equity or face federal indictment.";
+    }
+
+    if (msg.includes("pen") || msg.includes("sketch") || msg.includes("stolen") || msg.includes("art")) {
+      if (name.includes("Evelyn")) {
+        return "Arthur took twenty-four of my original charcoal studies, signed his own monogram on the margins, and sold them to Tokyo collectors for six figures! I broke in to reclaim my own soul, not commit murder!";
+      }
+      return "Arthur's gallery was filled with copyists eager to bask in his prestige. Creative rivalries are common in the high-end art world.";
+    }
+
+    if (msg.includes("kill") || msg.includes("murder") || msg.includes("cyanide") || msg.includes("die")) {
+      if (name.includes("Julian")) {
+        return "Accusing me of murder? I built this empire with Arthur. Without him, our portfolio faces turmoil. Killing him would be financially irrational.";
+      }
+      if (name.includes("Evelyn")) {
+        return "I hated him for exploiting my talent, but I could never watch a human being choke on poison! I heard footsteps and ran!";
+      }
+      if (name.includes("Sterling")) {
+        return "I swore the Hippocratic oath! Yes, I was terrified he would expose my falsified reports, but I would never poison a patient!";
+      }
+      return "I spent ten years behind bars for cracking bank safes. I know what murder sentences carry. I didn't touch Arthur.";
+    }
+  }
+
+  // ==========================================
+  // CASE 2: Red Tide
+  // ==========================================
+  if (numId === 2) {
     if (msg.includes("board") || msg.includes("surf") || msg.includes("wax")) {
       if (name.includes("Lance")) {
         return "I was testing the point break before the sun went down. If there's wax transfer on her board, it's because we keep them in the same rack at the club. Don't look at me like that.";
@@ -67,22 +174,42 @@ function generateSuspectResponse(suspect, userMessage, caseId) {
     }
   }
 
-  // Case 1: The Midnight Murder
-  if (msg.includes("watch") || msg.includes("time") || msg.includes("11:45")) {
-    if (name.includes("James")) {
-      return "My watch stopped? No, that was Richard's watch! I told you I was asleep in the guest wing. A loud crash woke me, but I didn't go downstairs until midnight!";
+  // ==========================================
+  // CASE 1: The Midnight Murder
+  // ==========================================
+  if (numId === 1) {
+    if (msg.includes("watch") || msg.includes("time") || msg.includes("11:45")) {
+      if (name.includes("James")) {
+        return "My watch stopped? No, that was Richard's watch! I told you I was asleep in the guest wing. A loud crash woke me, but I didn't go downstairs until midnight!";
+      }
+      return "The time of death was quarter to midnight? That completely exonerates me; my alibi is airtight.";
     }
-    return "The time of death was quarter to midnight? That completely exonerates me; my alibi is airtight.";
-  }
 
-  if (msg.includes("letter") || msg.includes("threat") || msg.includes("blood")) {
-    if (name.includes("James")) {
-      return "Richard was paranoid. He wrote letters to everyone when he was angry. That doesn't mean I struck him!";
+    if (msg.includes("letter") || msg.includes("threat") || msg.includes("blood")) {
+      if (name.includes("James")) {
+        return "Richard was paranoid. He wrote letters to everyone when he was angry. That doesn't mean I struck him!";
+      }
+      return "Richard received many threats concerning his business dealings. You should examine his financial ledgers.";
     }
-    return "Richard received many threats concerning his business dealings. You should examine his financial ledgers.";
+
+    if (msg.includes("key") || msg.includes("safe") || msg.includes("vault")) {
+      return "The study safe contained Richard's will and title deeds. Whoever took that key was looking for inheritance records.";
+    }
   }
 
   // General default fallback responses
+  if (name.includes("Julian")) {
+    return "Your hypothesis is charming, detective, but forensic speculation will not stand up in an appellate court.";
+  }
+  if (name.includes("Evelyn")) {
+    return "I... I've told you everything! Stop staring at my hands!";
+  }
+  if (name.includes("Sterling")) {
+    return "I suggest you consult Arthur's complete neurological file before making wild accusations.";
+  }
+  if (name.includes("Isaac")) {
+    return "I keep my head down and do my work. You want a killer? Look at the suits who stood to inherit millions.";
+  }
   if (name.includes("Lance") || name.includes("James")) {
     return "You're fishing for things that aren't there. I've told you my statement three times already.";
   }
@@ -98,11 +225,17 @@ function Interrogation() {
   const [searchParams, setSearchParams] = useSearchParams();
   const chatBottomRef = useRef(null);
 
-  const currentCase = cases.find((c) => c.id === Number(id));
+  const currentCase = cases.find((c) => c.id === Number(id)) || cases[0];
   const activeUser = getCurrentUser();
 
+  // Play interrogation soundtrack on mount, stop on leave
+  useEffect(() => {
+    soundManager.playInterrogationTheme();
+    return () => soundManager.stopAll();
+  }, []);
+
   // Selected suspect ID
-  const suspectQueryId = Number(searchParams.get("suspect")) || 1;
+  const suspectQueryId = Number(searchParams.get("suspect")) || currentCase?.suspects[0]?.id || 1;
   const currentSuspect =
     currentCase?.suspects.find((s) => s.id === suspectQueryId) ||
     currentCase?.suspects[0];
@@ -186,12 +319,22 @@ function Interrogation() {
 
     // Fluctuate traits based on user question keywords
     const lower = text.toLowerCase();
-    let stressDelta = 2;
-    let deceptionDelta = 0;
+    let stressDelta = 4;
+    let deceptionDelta = 2;
 
-    if (lower.includes("kill") || lower.includes("murder") || lower.includes("lie") || lower.includes("pier") || lower.includes("watch")) {
-      stressDelta = 14;
-      deceptionDelta = 8;
+    if (
+      lower.includes("kill") ||
+      lower.includes("murder") ||
+      lower.includes("cyanide") ||
+      lower.includes("cufflink") ||
+      lower.includes("ledger") ||
+      lower.includes("elevator") ||
+      lower.includes("pier") ||
+      lower.includes("watch") ||
+      lower.includes("blood")
+    ) {
+      stressDelta = 16;
+      deceptionDelta = 10;
     }
 
     setTimeout(() => {
@@ -216,17 +359,32 @@ function Interrogation() {
       // Patrick Jane commentary trigger on high stress
       if (stressDelta > 10) {
         setTimeout(() => {
+          let customJaneComment = `☕ Patrick Jane leans in: "Notice how ${currentSuspect.name}'s posture froze? Their pulse is racing. Press them on that exact detail."`;
+
+          if (currentSuspect.name.includes("Julian")) {
+            customJaneComment = `☕ Patrick Jane smiles softly: "Watch his left thumb, detective. He's polished that gold cufflink five times since you mentioned the ledger. He's terrified."`;
+          } else if (currentSuspect.name.includes("Evelyn")) {
+            customJaneComment = `☕ Patrick Jane whispers: "Listen to her breathing—rapid, shallow upper-chest. She's hiding her own break-in, but she didn't poison the glass."`;
+          } else if (currentSuspect.name.includes("Sterling")) {
+            customJaneComment = `☕ Patrick Jane sighs: "He tugs at his collar every time you say 'records.' Classic displacement activity for a guilty conscience."`;
+          } else if (currentSuspect.name.includes("Isaac")) {
+            customJaneComment = `☕ Patrick Jane observes: "Look at his jaw muscles clenching rhythmically. An ex-con measuring the physical exits. He's innocent of murder, but guilty of theft."`;
+          }
+
           setMessages((prev) => [
             ...prev,
             {
               sender: "jane",
-              text: `☕ Patrick Jane leans in: "Notice how ${currentSuspect.name}'s voice rose? Their pulse is racing. Press them on that exact detail."`
+              text: customJaneComment
             }
           ]);
         }, 900);
       }
     }, 1000);
   }
+
+  const suggestedQuestions =
+    CASE_SUGGESTED_QUESTIONS[Number(id)] || CASE_SUGGESTED_QUESTIONS[1];
 
   return (
     <div className="interrogation-page">
@@ -261,7 +419,7 @@ function Interrogation() {
         </button>
 
         <span style={{ fontSize: "12px", color: "#ffc870", fontWeight: "700", letterSpacing: "1px" }}>
-          CBI SACRAMENTO // INTERROGATION CHAMBER 02
+          CBI SACRAMENTO // INTERROGATION CHAMBER — {currentCase.title.toUpperCase()}
         </span>
       </nav>
 
@@ -367,8 +525,8 @@ function Interrogation() {
               <strong>Patrick Jane's Verdict:</strong>
               <p style={{ margin: "5px 0 0", fontStyle: "italic", color: "#eee" }}>
                 {traits.stress > 70
-                  ? `"${currentSuspect.name} is severely cornered. The physiological response to questions about the crime proves direct involvement."`
-                  : `"${currentSuspect.name} is guarded but composed. Keep digging into the physical evidence to crack their story."`}
+                  ? `"${currentSuspect.name} is visibly cornered. Their physical micro-tells are betraying direct involvement. Deliver the forensic contradiction."`
+                  : `"${currentSuspect.name} is composed and rehearsed. Probe into their physical whereabouts and watch for involuntary autonomic twitches."`}
               </p>
             </div>
           )}
@@ -439,35 +597,20 @@ function Interrogation() {
             <div ref={chatBottomRef} />
           </div>
 
-          {/* Suggested Quick Questions */}
+          {/* Suggested Quick Questions (Dynamic per case) */}
           <div className="quick-questions-strip">
             <span style={{ fontSize: "11px", color: "#ffc870", alignSelf: "center", fontWeight: "700" }}>
               SUGGESTED:
             </span>
-            <button
-              className="quick-q-chip"
-              onClick={() => handleSendMessage("Where were you at sunset when the tide came in?")}
-            >
-              Where were you at sunset?
-            </button>
-            <button
-              className="quick-q-chip"
-              onClick={() => handleSendMessage("Why was the surfboard wax scraped?")}
-            >
-              Examine surfboard wax
-            </button>
-            <button
-              className="quick-q-chip"
-              onClick={() => handleSendMessage("Did you see what happened by the pier?")}
-            >
-              Ask about the pier
-            </button>
-            <button
-              className="quick-q-chip"
-              onClick={() => handleSendMessage("Why are you avoiding eye contact?")}
-            >
-              Call out body language
-            </button>
+            {suggestedQuestions.map((q, idx) => (
+              <button
+                key={idx}
+                className="quick-q-chip"
+                onClick={() => handleSendMessage(q)}
+              >
+                {q}
+              </button>
+            ))}
           </div>
 
           {/* Input Form */}

@@ -22,7 +22,7 @@ import {
   MapPin
 } from "lucide-react";
 
-// Native Web Audio Synthesizer (Instant, 100% reliable sound effects without downloads)
+// Native Web Audio Synthesizer for Discovery Chimes
 function playCrimeAudio(type = "clue") {
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -30,12 +30,11 @@ function playCrimeAudio(type = "clue") {
     const ctx = new AudioContext();
 
     if (type === "clue") {
-      // Pleasant mystery discovery chime
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = "sine";
-      osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.25); // A5
+      osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.25);
       gain.gain.setValueAtTime(0.12, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
       osc.connect(gain);
@@ -43,7 +42,6 @@ function playCrimeAudio(type = "clue") {
       osc.start();
       osc.stop(ctx.currentTime + 0.35);
     } else if (type === "complete") {
-      // Triumphant case resolution chord
       [523.25, 659.25, 783.99].forEach((freq, idx) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -57,22 +55,20 @@ function playCrimeAudio(type = "clue") {
         osc.stop(ctx.currentTime + 0.6);
       });
     }
-  } catch (err) {
-    // Graceful fallback if audio autoplay is restricted
-  }
+  } catch (err) {}
 }
 
 // Multi-Case Crime Scene Visual & Forensic Coordinates
 const CASE_SCENE_DATA = {
-  // Case 1: The Midnight Murder (Blackwood Mansion Study)
+  // Case 1: The Midnight Murder
   1: {
     photoUrl:
       "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1600&auto=format&fit=crop&q=80",
     hotspots: {
-      1: { x: 48, y: 72, label: "Mahogany Study Desk" }, // Broken Watch
-      2: { x: 74, y: 64, label: "Study Bookcase & Letters" }, // Blood-stained Letter
-      3: { x: 26, y: 78, label: "Garden Balcony Sill" }, // Footprint
-      4: { x: 62, y: 52, label: "Carved Fireplace Mantle" } // Silver Key
+      1: { x: 48, y: 72, label: "Mahogany Study Desk" },
+      2: { x: 74, y: 64, label: "Study Bookcase & Letters" },
+      3: { x: 26, y: 78, label: "Garden Balcony Sill" },
+      4: { x: 62, y: 52, label: "Carved Fireplace Mantle" }
     },
     observations: {
       1: "Notice the crystal didn't shatter from a dropped fall. It was struck from the side at high impact. Richard was fighting for his life at exactly 11:45 PM.",
@@ -82,21 +78,39 @@ const CASE_SCENE_DATA = {
     }
   },
 
-  // Case 2: Red Tide (Santa Marta Beach Cove - The Mentalist S01E03)
+  // Case 2: Red Tide (Santa Marta Beach Cove)
   2: {
     photoUrl:
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&auto=format&fit=crop&q=80",
     hotspots: {
-      1: { x: 38, y: 70, label: "Surfboard on Wet Sand" }, // Waxed Red Surfboard
-      2: { x: 68, y: 78, label: "Pier Base & Damp Towel" }, // Stained Beach Towel
-      3: { x: 78, y: 54, label: "Wooden Pier Pylons" }, // Silver Shell Locket
-      4: { x: 22, y: 82, label: "Dune Shrubbery Sand" } // Saltwater Flashlight
+      1: { x: 38, y: 70, label: "Surfboard on Wet Sand" },
+      2: { x: 68, y: 78, label: "Pier Base & Damp Towel" },
+      3: { x: 78, y: 54, label: "Wooden Pier Pylons" },
+      4: { x: 22, y: 82, label: "Dune Shrubbery Sand" }
     },
     observations: {
       1: "Fresh wax cross-contamination. Christine didn't surf alone at dusk—another board was pressed directly against hers.",
       2: "Diesel fuel and engine oil. Someone tried using the launch boat before the tide turned.",
       3: "The chain clasp was snapped from behind. She was seized near the pier before reaching the water.",
       4: "Battery contacts deliberately smashed with a stone. Someone needed the beach completely dark."
+    }
+  },
+
+  // Case 3: The Case of the Hollow Maestro (Gallery of Echoes Penthouse)
+  3: {
+    photoUrl:
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&auto=format&fit=crop&q=80",
+    hotspots: {
+      1: { x: 46, y: 72, label: "Velvet Chaise Woodwork" },
+      2: { x: 34, y: 64, label: "Artisanal Tonic Tumbler" },
+      3: { x: 84, y: 48, label: "Penthouse Elevator Keypad" },
+      4: { x: 64, y: 38, label: "Fireplace Brass Metronome" }
+    },
+    observations: {
+      1: "18-karat gold with microscopic balance indentations. Someone leaned over Arthur while he was collapsing to retrieve a document.",
+      2: "Smell that faint bitter almond? Unrefined industrial cyanide. Not a chemist's poison—this came from an industrial gold-mining syndicate.",
+      3: "Penthouse elevator called down at 10:52 PM. Julian swore on his corporate reputation he was dining across town at 10:30 PM.",
+      4: "Set to 60 BPM. Arthur despised metronomes; he was a synesthete. The killer set this theatrical scene to mock an occult suicide."
     }
   }
 };
@@ -106,10 +120,9 @@ function CrimeScene() {
   const navigate = useNavigate();
   const sceneRef = useRef(null);
 
-  const currentCase = cases.find((item) => item.id === Number(id));
+  const currentCase = cases.find((item) => item.id === Number(id)) || cases[0];
   const activeUser = getCurrentUser();
 
-  // Load scene data for Case 1 or Case 2
   const caseScene = CASE_SCENE_DATA[Number(id)] || CASE_SCENE_DATA[1];
 
   const [collected, setCollected] = useState(() => getEvidence(id));
@@ -119,7 +132,6 @@ function CrimeScene() {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
 
-  // Sync collected clues with localStorage whenever it changes
   useEffect(() => {
     saveEvidence(id, collected);
   }, [id, collected]);
@@ -135,16 +147,28 @@ function CrimeScene() {
     );
   }
 
-  // Mouse tracking across scene for flashlight spotlight beam
+  // Mouse tracking for 3D Parallax Tilt & Flashlight Beam
   function handleMouseMove(e) {
-    if (!sceneRef.current || !flashlightEnabled) return;
+    if (!sceneRef.current) return;
     const rect = sceneRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+    const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
     setMousePos({ x, y });
   }
 
-  // Handle clue collection and trigger audio
+  function handleMouseLeave() {
+    // Smooth reset to center when mouse leaves
+    setMousePos({ x: 50, y: 50 });
+  }
+
+  // Check if flashlight cursor is near a hotspot (within 13% radius)
+  function isNearCursor(coords) {
+    if (!flashlightEnabled && !perceptionMode) return false;
+    const dx = mousePos.x - coords.x;
+    const dy = mousePos.y - coords.y;
+    return Math.sqrt(dx * dx + dy * dy) < 13.5;
+  }
+
   function handleCollectItem(item) {
     const alreadyCollected = collected.some((e) => e.id === item.id);
     if (!alreadyCollected) {
@@ -165,9 +189,13 @@ function CrimeScene() {
     totalEvidence === 0 ? 0 : Math.round((collected.length / totalEvidence) * 100);
   const allDiscovered = collected.length === totalEvidence && totalEvidence > 0;
 
+  // Real-time 3D camera angles
+  const tiltX = ((mousePos.y - 50) * -0.16).toFixed(2);
+  const tiltY = ((mousePos.x - 50) * 0.16).toFixed(2);
+
   return (
     <div className="vivid-crime-page">
-      {/* Top Navigation Bar */}
+      {/* Top Navigation */}
       <nav className="vivid-navbar">
         <div className="nav-left">
           <button className="back-case-btn" onClick={() => navigate(`/case/${id}`)}>
@@ -181,7 +209,6 @@ function CrimeScene() {
         </div>
 
         <div className="nav-actions">
-          {/* Patrick Jane's Perception Vision Mode */}
           <button
             className={`toggle-btn ${perceptionMode ? "active" : ""}`}
             onClick={() => setPerceptionMode(!perceptionMode)}
@@ -191,7 +218,6 @@ function CrimeScene() {
             <span>{perceptionMode ? "Jane's Vision ON" : "Perception Mode"}</span>
           </button>
 
-          {/* Flashlight Searchlight Toggle */}
           <button
             className={`toggle-btn ${flashlightEnabled ? "active" : ""}`}
             onClick={() => setFlashlightEnabled(!flashlightEnabled)}
@@ -201,7 +227,6 @@ function CrimeScene() {
             <span>Searchlight</span>
           </button>
 
-          {/* Audio Sound FX Toggle */}
           <button
             className="toggle-btn"
             onClick={() => setSoundEnabled(!soundEnabled)}
@@ -225,11 +250,10 @@ function CrimeScene() {
             </div>
             <h1>{currentCase.title} — Crime Scene</h1>
             <p>
-              Hover your cursor to illuminate the scene. Click on the pulsing forensic pins to examine clues.
+              Sweep your searchlight across the room. Clues stay concealed in shadows until illuminated.
             </p>
           </div>
 
-          {/* Patrick Jane Advisor Box */}
           <div className="jane-tip-card">
             <img
               src={
@@ -244,62 +268,70 @@ function CrimeScene() {
               <p>
                 {allDiscovered
                   ? "Splendid work. Every trace is gathered—now let's confront the suspects."
-                  : "Don't just look at the obvious. Observe the subtle things that don't belong."}
+                  : "Listen to the room. The killer thought they hid every trace, but human panic always leaves a tell."}
               </p>
             </div>
           </div>
         </section>
 
-        {/* Interactive Crime Scene Canvas with Hotspots */}
-        <section
-          ref={sceneRef}
-          className={`interactive-scene-frame ${perceptionMode ? "perception-mode" : ""}`}
-          onMouseMove={handleMouseMove}
-          style={{
-            "--mouse-x": `${mousePos.x}%`,
-            "--mouse-y": `${mousePos.y}%`
-          }}
-        >
-          {/* Dynamic Scene Photo: Mansion Study (Case 1) or Beach Cove (Case 2) */}
-          <img
-            src={caseScene.photoUrl}
-            alt={currentCase.title}
-            className="scene-background-photo"
-          />
+        {/* 3D Perspective Stage Container */}
+        <div className="interactive-scene-perspective-wrap">
+          <section
+            ref={sceneRef}
+            className={`interactive-scene-frame ${perceptionMode ? "perception-mode" : ""}`}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              "--mouse-x": `${mousePos.x}%`,
+              "--mouse-y": `${mousePos.y}%`,
+              "--tilt-x": `${tiltX}deg`,
+              "--tilt-y": `${tiltY}deg`
+            }}
+          >
+            {/* 3D Parallax Background Image */}
+            <img
+              src={caseScene.photoUrl}
+              alt={currentCase.title}
+              className="scene-background-photo"
+            />
 
-          {/* Dynamic Flashlight Beam */}
-          {flashlightEnabled && <div className="flashlight-overlay" />}
+            {/* Dynamic Volumetric Flashlight Overlay */}
+            {flashlightEnabled && <div className="flashlight-overlay" />}
 
-          {/* Interactive Forensic Hotspots */}
-          {currentCase.evidence.map((evidenceItem) => {
-            const coords =
-              caseScene.hotspots[evidenceItem.id] || { x: 50, y: 50, label: "Object" };
-            const isCollected = collected.some((e) => e.id === evidenceItem.id);
+            {/* Forensic Hotspots: REVEAL ONLY ON PROXIMITY OR HOVER */}
+            {currentCase.evidence.map((evidenceItem) => {
+              const coords =
+                caseScene.hotspots[evidenceItem.id] || { x: 50, y: 50, label: "Object" };
+              const isCollected = collected.some((e) => e.id === evidenceItem.id);
+              const isIlluminated = isNearCursor(coords);
 
-            return (
-              <div
-                key={evidenceItem.id}
-                className={`scene-hotspot-pin ${isCollected ? "collected" : ""}`}
-                style={{ left: `${coords.x}%`, top: `${coords.y}%` }}
-                onClick={() => setActiveModalItem(evidenceItem)}
-              >
-                <div className="pin-core">
-                  {isCollected ? <CheckCircle2 size={18} /> : <Search size={18} />}
+              return (
+                <div
+                  key={evidenceItem.id}
+                  className={`scene-hotspot-pin ${isCollected ? "collected" : ""} ${
+                    isIlluminated ? "illuminated" : "hidden-in-dark"
+                  }`}
+                  style={{ left: `${coords.x}%`, top: `${coords.y}%` }}
+                  onClick={() => setActiveModalItem(evidenceItem)}
+                >
+                  <div className="pin-core">
+                    {isCollected ? <CheckCircle2 size={18} /> : <Search size={18} />}
+                  </div>
+                  {!isCollected && <div className="pin-pulse-ring" />}
+
+                  <div className="hotspot-tooltip">
+                    {coords.label}: {evidenceItem.name} {isCollected && "✓"}
+                  </div>
                 </div>
-                {!isCollected && <div className="pin-pulse-ring" />}
+              );
+            })}
 
-                <div className="hotspot-tooltip">
-                  {coords.label}: {evidenceItem.name} {isCollected && "✓"}
-                </div>
-              </div>
-            );
-          })}
-
-          {/* HUD Coordinates Display */}
-          <div className="hud-coordinates">
-            SECTOR: CBI-FORENSIC // X:{Math.round(mousePos.x)} Y:{Math.round(mousePos.y)}
-          </div>
-        </section>
+            {/* Ambient HUD Coordinates */}
+            <div className="hud-coordinates">
+              SECTOR: CBI-FORENSIC // X:{Math.round(mousePos.x)} Y:{Math.round(mousePos.y)} // 3D TILT: {tiltY}°
+            </div>
+          </section>
+        </div>
 
         {/* Progress Tracker & Action Controls */}
         <section className="scene-footer-controls">
@@ -362,7 +394,6 @@ function CrimeScene() {
               <p>{activeModalItem.description}</p>
             </div>
 
-            {/* Patrick Jane's Psychological Deduction */}
             <div className="mentalist-dialogue-card">
               <span className="dialogue-speaker">
                 <Sparkles size={14} />

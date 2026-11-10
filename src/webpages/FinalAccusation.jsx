@@ -18,18 +18,25 @@ import {
 
 // Curated High-Resolution Suspect Photos
 const SUSPECT_PHOTOS = {
-  // Case 1
+  // Case 1: The Midnight Murder
   "1-1": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=450&auto=format&fit=crop&q=80",
   "1-2": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=450&auto=format&fit=crop&q=80",
   "1-3": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=450&auto=format&fit=crop&q=80",
 
-  // Case 2
+  // Case 2: Red Tide
   "2-1": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=450&auto=format&fit=crop&q=80",
   "2-2": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=450&auto=format&fit=crop&q=80",
-  "2-3": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=450&auto=format&fit=crop&q=80"
+  "2-3": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=450&auto=format&fit=crop&q=80",
+
+  // Case 3: The Case of the Hollow Maestro
+  "3-1": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=450&auto=format&fit=crop&q=80", // Julian Vance
+  "3-2": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=450&auto=format&fit=crop&q=80", // Evelyn Cross
+  "3-3": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=450&auto=format&fit=crop&q=80", // Dr. Mark Sterling
+  "3-4": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=450&auto=format&fit=crop&q=80"  // Isaac Cole
 };
 
 const VERDICT_STORIES = {
+  // Case 1
   "1-1": {
     correct: true,
     confession:
@@ -46,6 +53,8 @@ const VERDICT_STORIES = {
     defense:
       "My business dinner was attended by five prominent associates and logged by restaurant staff. This is reckless police incompetence. My attorneys will have this warrant dismissed before breakfast."
   },
+
+  // Case 2
   "2-3": {
     correct: true,
     confession:
@@ -61,6 +70,29 @@ const VERDICT_STORIES = {
     correct: false,
     defense:
       "I didn't hurt her! I swear on my life! I only watched them walk toward the pier from my truck... I was too terrified of Jason to speak up, but I never touched her!"
+  },
+
+  // Case 3: The Case of the Hollow Maestro
+  "3-1": {
+    correct: true,
+    confession:
+      "Intellect? Don't insult me by putting Arthur in the same category. Arthur spent thirty years looking at men through a microscope, dissecting our weaknesses, storing them away in little leather journals like pinned butterflies. He called it 'profiling.' I called it extortion. Yesterday afternoon, he sat across from me and laid out my company's books. He didn't want the police. He wanted to own me. He smiled—that disgusting, condescending smirk—and told me I was 'predictable.' He said a narcissist will always overplay his hand before he folds. So I showed him how predictable I was. I brought the papers he wanted. I let him lecture me until his throat seized up from his own self-importance, and when he reached for that tumbler, he never even looked down. He looked me in the eye to savor my defeat. Do you know what he did when the burning started? He didn't scream. He looked in that wretched mirror, saw me taking the ledger, and he realized that every single thing he taught me had worked. I didn't murder a man tonight, detective. I audited him.",
+    defense: ""
+  },
+  "3-2": {
+    correct: false,
+    defense:
+      "Are you insane, detective?! I'm an artist, not an assassin! I only broke into the gallery at 9:30 PM to reclaim my stolen charcoal sketches that Arthur signed his own name on! I panicked, dropped my fixative bottle near the back door, and ran! I didn't touch his drink!"
+  },
+  "3-3": {
+    correct: false,
+    defense:
+      "Malpractice? Yes, I was terrified he would expose my falsified diagnostic assessments! But murder with potassium cyanide?! As a physician, I took the Hippocratic oath! Check the elevator records, I was in my car exiting the garage by 10:35 PM!"
+  },
+  "3-4": {
+    correct: false,
+    defense:
+      "I did ten years in Pelican Bay for cracking safes, and I swore I'd never go back. Pendelton blackmailed me into unpaid cataloging in the basement. I wanted the Byzantine coin collection, yes, but I didn't kill him! Look at his partner Julian Vance!"
   }
 };
 
@@ -68,7 +100,7 @@ function FinalAccusation() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const currentCase = cases.find((item) => item.id === Number(id));
+  const currentCase = cases.find((item) => item.id === Number(id)) || cases[0];
 
   const [selectedSuspectId, setSelectedSuspectId] = useState(null);
   const [verdictResult, setVerdictResult] = useState(null);
@@ -229,7 +261,7 @@ function FinalAccusation() {
               <Coffee size={24} color="#ffc870" style={{ flexShrink: 0 }} />
               <p>
                 {verdictResult.isCorrect
-                  ? `Patrick Jane smiles: "Brilliant work, detective. They thought their privilege and lies could bury the truth, but human nature never lies."`
+                  ? `Patrick Jane smiles: "Brilliant work, detective. They thought their privilege and theatrical staging could bury the truth, but human nature never lies."`
                   : `Patrick Jane sighs: "A costly mistake. Don't let emotion guide your choice—revisit the clues and trace the physical contradictions."`}
               </p>
             </div>

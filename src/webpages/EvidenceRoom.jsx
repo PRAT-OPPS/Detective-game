@@ -21,9 +21,51 @@ import {
   Gavel
 } from "lucide-react";
 
-// Curated Photorealistic Forensic Item Imagery for Case 1 & Case 2
+// Curated Photorealistic Forensic Item Imagery for Case 1, Case 2, & Case 3
 const REALISTIC_EVIDENCE_ASSETS = {
-  // Case 2: Red Tide (Santa Marta Beach Cove - S01E03)
+  // ==========================================
+  // Case 3: The Case of the Hollow Maestro
+  // ==========================================
+  "3-1": {
+    name: "Engraved Gold Cufflink",
+    frontPhoto:
+      "https://images.unsplash.com/photo-1590736969955-71cc94801759?w=600&auto=format&fit=crop&q=80",
+    reversePhoto:
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&auto=format&fit=crop&q=80",
+    reverseTell:
+      "REVERSE ANGLE INSPECTION: Microscopic balance-scale indentation. Gold purity matches Julian's mining portfolio."
+  },
+  "3-2": {
+    name: "Cyanide Tonic Tumbler",
+    frontPhoto:
+      "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&auto=format&fit=crop&q=80",
+    reversePhoto:
+      "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&auto=format&fit=crop&q=80",
+    reverseTell:
+      "REVERSE ANGLE INSPECTION: Bitter almond particulate residue adhering to crystal cuts. Cyanide dissolved in cold tonic water."
+  },
+  "3-3": {
+    name: "Elevator Electronic Log",
+    frontPhoto:
+      "https://images.unsplash.com/photo-1546776310-eef45dd6d63c?w=600&auto=format&fit=crop&q=80",
+    reversePhoto:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80",
+    reverseTell:
+      "REVERSE ANGLE INSPECTION: Cryptographic timestamp confirmed. Penthouse lift was called downward at exactly 10:52 PM."
+  },
+  "3-4": {
+    name: "Ticking Brass Metronome",
+    frontPhoto:
+      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop&q=80",
+    reversePhoto:
+      "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=600&auto=format&fit=crop&q=80",
+    reverseTell:
+      "REVERSE ANGLE INSPECTION: Partial thumb smudge on the brass sliding weight. Set to 60 BPM to create a false aura of theatrical suicide."
+  },
+
+  // ==========================================
+  // Case 2: Red Tide (Santa Marta Beach Cove)
+  // ==========================================
   "2-1": {
     name: "Waxed Red Surfboard",
     frontPhoto:
@@ -61,7 +103,9 @@ const REALISTIC_EVIDENCE_ASSETS = {
       "REVERSE ANGLE INSPECTION: Battery housing shattered with a quartz rock to kill illumination instantly."
   },
 
+  // ==========================================
   // Case 1: The Midnight Murder
+  // ==========================================
   "1-1": {
     name: "Broken Watch",
     frontPhoto:
@@ -100,7 +144,7 @@ const REALISTIC_EVIDENCE_ASSETS = {
   }
 };
 
-// Resident Evil Click / Clack Mechanical Audio Synthesizer
+// Resident Evil Mechanical Sound Synthesizer
 function playMechanicalAudio(type = "click") {
   try {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -137,20 +181,18 @@ function EvidenceRoom() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const currentCase = cases.find((c) => c.id === Number(id));
+  const currentCase = cases.find((c) => c.id === Number(id)) || cases[0];
 
-  // Load collected evidence (or fallback to full case evidence so you can inspect right away)
+  // Load collected evidence or fallback to all case evidence for testing
   const savedEvidence = getEvidence(id);
   const availableEvidence =
-    savedEvidence.length > 0
-      ? savedEvidence
-      : currentCase?.evidence || [];
+    savedEvidence.length > 0 ? savedEvidence : currentCase?.evidence || [];
 
   const [selectedItem, setSelectedItem] = useState(
     availableEvidence[0] || currentCase?.evidence[0]
   );
 
-  // 3D Examination States (Resident Evil Mechanism)
+  // 3D Examination States
   const [rotation, setRotation] = useState({ x: 12, y: -18 });
   const [zoom, setZoom] = useState(1);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -201,7 +243,6 @@ function EvidenceRoom() {
 
   return (
     <div className="evidence-re-page" onMouseUp={handleMouseUp}>
-      {/* Universal Investigation Navigation Bar */}
       <Navbar caseId={id} activePage="evidence" />
 
       <main className="evidence-re-container">
@@ -245,10 +286,7 @@ function EvidenceRoom() {
                   }}
                 >
                   <div className="re-slot-thumbnail">
-                    <img
-                      src={itemAsset?.frontPhoto}
-                      alt={item.name}
-                    />
+                    <img src={itemAsset?.frontPhoto} alt={item.name} />
                   </div>
                   <div className="re-slot-info">
                     <h4>{item.name}</h4>
@@ -286,11 +324,7 @@ function EvidenceRoom() {
               >
                 <div className="re-item-card-3d">
                   <img
-                    src={
-                      isFlipped
-                        ? assetData.reversePhoto
-                        : assetData.frontPhoto
-                    }
+                    src={isFlipped ? assetData.reversePhoto : assetData.frontPhoto}
                     alt={selectedItem?.name}
                     draggable={false}
                   />

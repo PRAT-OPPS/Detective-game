@@ -289,7 +289,12 @@ function Home() {
               <div key={item.id} className="case-card-reloaded">
                 <div className="case-top-stamp">
                   <span className="case-file-id">CASE 00{item.id}</span>
-                  <span className="case-diff-badge">{item.difficulty || "MEDIUM"}</span>
+                  <div className="case-badges-group">
+                    <span className="case-diff-badge">{item.difficulty || "MEDIUM"}</span>
+                    {item.status === "solved" && (
+                      <span className="case-status-badge">SOLVED</span>
+                    )}
+                  </div>
                 </div>
 
                 <h3>{item.title}</h3>

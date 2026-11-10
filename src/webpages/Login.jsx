@@ -2,15 +2,18 @@
 
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { loginAgent } from "../utils/auth";
+import { loginAgent, MENTALIST_AVATARS } from "../utils/auth";
+import { sqlDb } from "../utils/sqlDatabase";
 import {
-  ShieldAlert,
   KeyRound,
   Mail,
   Fingerprint,
-  Coffee,
+  ArrowRight,
+  Database,
+  X,
+  Play,
   CheckCircle2,
-  ArrowRight
+  Lock
 } from "lucide-react";
 
 function Login() {
@@ -19,13 +22,19 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
+
+  // SQL Inspector Modal State
+  const [showSqlModal, setShowSqlModal] = useState(false);
+  const [sqlQuery, setSqlQuery] = useState("SELECT * FROM agents;");
+  const [sqlResult, setSqlResult] = useState(() => sqlDb.executeRaw("SELECT * FROM agents;"));
 
   function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
     if (!credential || !password) {
-      setError("Enter your CBI credential (email/badge) and key.");
+      setError("Please enter your email or CBI badge, and password.");
       return;
     }
 
@@ -38,7 +47,7 @@ function Login() {
       } else {
         setError(result.message);
       }
-    }, 400);
+    }, 350);
   }
 
   function handleQuickLogin(userEmail, userPass) {
@@ -50,115 +59,159 @@ function Login() {
     }
   }
 
+  function handleRunSql(e) {
+    e.preventDefault();
+    try {
+      const res = sqlDb.executeRaw(sqlQuery);
+      setSqlResult(res);
+    } catch (err) {
+      setSqlResult([{ error: err.message }]);
+    }
+  }
+
   return (
-    <div className="mentalist-auth-wrapper">
-      <div className="mentalist-auth-bg">
-        <div className="cbi-watermark">CBI</div>
-        <div className="redjohn-smiley" title="Red John's Mark">
-          ◡̈
-        </div>
-      </div>
+    <div className="netflix-login-wrapper">
+      {/* Background with Dark Cinematic Film Vignette */}
+      <div className="netflix-backdrop-overlay" />
 
-      <div className="mentalist-auth-card">
-        {/* Header with Series Branding */}
-        <div className="cbi-badge-header">
-          <div className="cbi-seal">
-            <Fingerprint size={28} />
-          </div>
-          <div className="cbi-titles">
-            <span className="cbi-department">CALIFORNIA BUREAU OF INVESTIGATION</span>
-            <h2>PSYCHOLOGICAL FORENSICS UNIT</h2>
-            <span className="cbi-subtag">SACRAMENTO HEADQUARTERS // DIVISION 04</span>
-          </div>
+      {/* Top Netflix-style Brand Bar */}
+      <header className="netflix-header">
+        <div className="netflix-brand-title" onClick={() => navigate("/")}>
+          <span className="netflix-cbi-tag">CBI</span>
+          THE JANE METHOD
         </div>
 
-        {/* Mentalist Quote Banner */}
-        <div className="mentalist-quote-box">
-          <Coffee size={18} className="quote-icon" />
-          <p>
-            <em>"If you stop and look around, this life is pretty amazing. Keep a sharp eye."</em>
-          </p>
-          <span>— Patrick Jane, Senior Consultant</span>
-        </div>
+        <button
+          className="netflix-sql-pill"
+          onClick={() => setShowSqlModal(true)}
+          title="Inspect SQL Relational Database"
+        >
+          <Database size={14} />
+          <span>SQL Inspector</span>
+        </button>
+      </header>
 
-        {/* Login Form */}
-        <form onSubmit={handleSubmit} className="mentalist-form">
-          {error && (
-            <div className="auth-alert error">
-              <ShieldAlert size={18} />
-              <span>{error}</span>
-            </div>
-          )}
+      {/* Main Netflix Login Card */}
+      <main className="netflix-login-container">
+        <div className="netflix-login-card">
+          <h1>Sign In</h1>
 
-          <div className="input-group">
-            <label>CBI Email or Badge ID</label>
-            <div className="input-field">
-              <Mail size={18} />
+          {error && <div className="netflix-error-banner">{error}</div>}
+
+          <form onSubmit={handleSubmit} className="netflix-form">
+            <div className="netflix-input-group">
               <input
                 type="text"
-                placeholder="e.g. jane@cbi.gov or CBI-SPEC-001"
+                required
+                placeholder="Email or CBI Badge Number"
                 value={credential}
                 onChange={(e) => setCredential(e.target.value)}
-                autoComplete="username"
               />
             </div>
-          </div>
 
-          <div className="input-group">
-            <label>Access Key / Password</label>
-            <div className="input-field">
-              <KeyRound size={18} />
+            <div className="netflix-input-group">
               <input
                 type="password"
-                placeholder="Enter access password"
+                required
+                placeholder="Security Clearance Key"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
               />
+            </div>
+
+            <button type="submit" className="netflix-submit-btn" disabled={loading}>
+              {loading ? "Authenticating SQL..." : "Sign In"}
+            </button>
+
+            <div className="netflix-form-meta">
+              <label className="netflix-checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                <span>Remember me</span>
+              </label>
+              <a href="#help" onClick={(e) => { e.preventDefault(); setError("Demo credentials: jane@cbi.gov (key: tea) or lisbon@cbi.gov (key: rules)"); }}>
+                Need help?
+              </a>
+            </div>
+          </form>
+
+          {/* Netflix "Who's Watching?" Quick One-Click Switcher */}
+          <div className="netflix-quick-profiles">
+            <span className="quick-title">OR SIGN IN AS OPERATIVE:</span>
+            <div className="quick-avatar-row">
+              {MENTALIST_AVATARS.slice(0, 4).map((agent) => (
+                <div
+                  key={agent.id}
+                  className="quick-avatar-pill"
+                  onClick={() =>
+                    handleQuickLogin(
+                      agent.id === "jane" ? "jane@cbi.gov" : "lisbon@cbi.gov",
+                      agent.id === "jane" ? "tea" : "rules"
+                    )
+                  }
+                  title={`Fast Login as ${agent.name}`}
+                >
+                  <img src={agent.avatarUrl} alt={agent.name} />
+                  <span>{agent.name.split(" ")[0]}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          <button type="submit" className="cbi-submit-btn" disabled={loading}>
-            {loading ? "Authenticating Clearance..." : "Authorize CBI Clearance"}
-            <ArrowRight size={18} />
-          </button>
-        </form>
-
-        {/* Quick Demo Agent Logins */}
-        <div className="quick-demo-section">
-          <span className="divider-label">QUICK REQUISITION (TEST ACCOUNTS)</span>
-          <div className="demo-buttons">
-            <button
-              type="button"
-              className="demo-agent-btn"
-              onClick={() => handleQuickLogin("jane@cbi.gov", "tea")}
-            >
-              <span className="demo-avatar">☕</span>
-              <div>
-                <strong>Patrick Jane</strong>
-                <small>Password: tea</small>
-              </div>
-            </button>
-
-            <button
-              type="button"
-              className="demo-agent-btn"
-              onClick={() => handleQuickLogin("lisbon@cbi.gov", "rules")}
-            >
-              <span className="demo-avatar">🛡️</span>
-              <div>
-                <strong>Teresa Lisbon</strong>
-                <small>Password: rules</small>
-              </div>
-            </button>
+          {/* Footer Callout */}
+          <div className="netflix-card-footer">
+            <p>
+              New to The Jane Method?{" "}
+              <Link to="/register" className="netflix-signup-link">
+                Sign up now.
+              </Link>
+            </p>
+            <span className="netflix-recaptcha-text">
+              Protected by CBI Sacramento SQL Encrypted Ledger.
+            </span>
           </div>
         </div>
+      </main>
 
-        <div className="auth-footer-link">
-          <span>New consultant or field agent?</span>{" "}
-          <Link to="/register">Enlist for CBI Clearance</Link>
+      {/* Interactive SQL Database Terminal Modal */}
+      {showSqlModal && (
+        <div className="sql-modal-backdrop" onClick={() => setShowSqlModal(false)}>
+          <div className="sql-terminal-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="sql-terminal-header">
+              <div className="sql-term-title">
+                <Database size={16} color="#e50914" />
+                <strong>CBI SQLITE RELATIONAL DATABASE INSPECTOR</strong>
+              </div>
+              <button className="close-sql-btn" onClick={() => setShowSqlModal(false)}>
+                <X size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={handleRunSql} className="sql-query-bar">
+              <input
+                type="text"
+                value={sqlQuery}
+                onChange={(e) => setSqlQuery(e.target.value)}
+                placeholder="Enter SQL Query (e.g. SELECT * FROM agents;)"
+              />
+              <button type="submit">
+                <Play size={14} /> Run SQL
+              </button>
+            </form>
+
+            <div className="sql-results-viewer">
+              <pre>{JSON.stringify(sqlResult, null, 2)}</pre>
+            </div>
+
+            <div className="sql-schema-hints">
+              <span>AVAILABLE TABLES: <code>agents</code>, <code>sessions</code>, <code>sql_audit_log</code></span>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

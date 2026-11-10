@@ -12,14 +12,14 @@ import {
   Activity,
   Zap
 } from "lucide-react";
-import { getCurrentUser, logoutAgent } from "../utils/auth";
+import { getCurrentUser, logoutAgent, MENTALIST_AVATARS } from "../utils/auth";
 
 function Navbar({ caseId, activePage = "dashboard" }) {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(() => getCurrentUser());
 
   useEffect(() => {
-    // Sync active agent profile
+    // Sync active agent profile from SQL / session storage
     setCurrentUser(getCurrentUser());
   }, []);
 
@@ -69,18 +69,20 @@ function Navbar({ caseId, activePage = "dashboard" }) {
     {
       name: "Lie Detector",
       icon: Activity,
-      path: caseId ? `/lie-detector/${caseId}` : "/lie-detector",
+      path: `/lie-detector/${caseId}`,
       key: "lie-detector"
     }
   ];
 
+  const defaultAvatar = MENTALIST_AVATARS?.[0]?.avatarUrl || "";
+
   return (
-    <nav className="main-navbar">
-      {/* Brand Logo & Title */}
+    <header className="main-navbar">
+      {/* CBI Brand Logo & Title */}
       <div className="navbar-brand" onClick={() => navigate("/")}>
         <span className="brand-icon">☕</span>
         <div>
-          <h2>SHADOW FILES</h2>
+          <h2>THE JANE METHOD</h2>
           <span>CBI PSYCHOLOGICAL INVESTIGATION</span>
         </div>
       </div>
@@ -88,13 +90,12 @@ function Navbar({ caseId, activePage = "dashboard" }) {
       {/* Navigation Links */}
       <div className="navbar-links">
         {navigation
-          // Shows Dashboard, Arcade, & Lie Detector everywhere; shows Case tabs when inside a case
+          // Shows Dashboard & Arcade on Home; shows all case links when inside a case
           .filter(
             (link) =>
               caseId ||
               link.key === "dashboard" ||
-              link.key === "mini-game" ||
-              link.key === "lie-detector"
+              link.key === "mini-game"
           )
           .map((link) => {
             const Icon = link.icon;
@@ -106,8 +107,8 @@ function Navbar({ caseId, activePage = "dashboard" }) {
                 }
                 onClick={() => navigate(link.path)}
               >
-                <Icon size={17} />
-                {link.name}
+                <Icon size={16} />
+                <span>{link.name}</span>
               </button>
             );
           })}
@@ -118,20 +119,20 @@ function Navbar({ caseId, activePage = "dashboard" }) {
         {currentUser ? (
           <div className="cbi-agent-profile">
             <img
-              src={currentUser.avatar?.avatarUrl}
+              src={currentUser.avatar?.avatarUrl || defaultAvatar}
               alt={currentUser.name}
               className="cbi-nav-avatar"
             />
             <div className="cbi-agent-info">
               <span className="cbi-agent-name">{currentUser.name}</span>
-              <span className="cbi-agent-badge">{currentUser.badge}</span>
+              <span className="cbi-agent-badge">{currentUser.badge || "CBI-OPERATIVE"}</span>
             </div>
             <button
               className="cbi-logout-btn"
               title="Sign Out of CBI Terminal"
               onClick={handleLogout}
             >
-              <LogOut size={16} />
+              <LogOut size={15} />
             </button>
           </div>
         ) : (
@@ -139,12 +140,12 @@ function Navbar({ caseId, activePage = "dashboard" }) {
             className="cbi-signin-btn"
             onClick={() => navigate("/login")}
           >
-            <LogIn size={16} />
+            <LogIn size={15} />
             <span>CBI Access</span>
           </button>
         )}
       </div>
-    </nav>
+    </header>
   );
 }
 

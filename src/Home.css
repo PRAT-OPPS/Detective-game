@@ -7,8 +7,226 @@
   min-height: 100vh;
   color: #e4e7eb;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip; /* Modern fix: stops horizontal scroll without breaking position: sticky */
   padding-bottom: 70px;
+}
+
+/* ==========================================================
+   CALIBRATED CBI TOP NAVIGATION BAR
+   ========================================================== */
+
+.main-navbar {
+  width: 100%;
+  min-height: 72px;
+  padding: 10px 4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  background: rgba(14, 17, 24, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 200, 112, 0.25);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+  user-select: none;
+  transition: transform 0.2s ease;
+}
+
+.navbar-brand:hover {
+  transform: translateY(-1px);
+}
+
+.brand-icon {
+  font-size: 26px;
+  filter: drop-shadow(0 0 8px rgba(255, 200, 112, 0.4));
+}
+
+.navbar-brand h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: #ffc870;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  margin: 0;
+  line-height: 1.1;
+  text-shadow: 0 0 20px rgba(255, 200, 112, 0.35);
+}
+
+.navbar-brand span:last-child {
+  display: block;
+  color: #8b949e;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-top: 3px;
+}
+
+/* Nav Links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #c9d1d9;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  background: rgba(184, 38, 49, 0.25);
+  border-color: rgba(255, 200, 112, 0.4);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  background: linear-gradient(135deg, rgba(184, 38, 49, 0.45), rgba(104, 13, 20, 0.6));
+  border-color: #ffc870;
+  color: #ffc870;
+  box-shadow: 0 0 15px rgba(255, 200, 112, 0.25);
+}
+
+/* Operative Authentication Section */
+.navbar-auth-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.cbi-agent-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(20, 24, 34, 0.85);
+  border: 1px solid rgba(255, 200, 112, 0.3);
+  padding: 5px 12px 5px 6px;
+  border-radius: 30px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease;
+}
+
+.cbi-agent-profile:hover {
+  border-color: #ffc870;
+  box-shadow: 0 0 20px rgba(255, 200, 112, 0.3);
+}
+
+.cbi-nav-avatar {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  max-width: 36px;
+  min-height: 36px;
+  max-height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  border: 2px solid #ffc870;
+  background: #111315;
+  box-shadow: 0 0 12px rgba(255, 200, 112, 0.35);
+  display: block;
+}
+
+.cbi-agent-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.cbi-agent-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.cbi-agent-badge {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #ffc870;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cbi-logout-btn {
+  background: rgba(184, 38, 49, 0.25) !important;
+  border: 1px solid rgba(184, 38, 49, 0.5) !important;
+  color: #ff7882 !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+  margin-left: 2px;
+}
+
+.cbi-logout-btn:hover {
+  background: #b82631 !important;
+  color: #ffffff !important;
+  border-color: #ff7882 !important;
+  transform: scale(1.08) !important;
+  box-shadow: 0 0 12px rgba(184, 38, 49, 0.6) !important;
+}
+
+.cbi-signin-btn {
+  background: linear-gradient(135deg, #a61c27, #680d14) !important;
+  border: 1px solid rgba(255, 200, 112, 0.4) !important;
+  color: #ffffff !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 15px rgba(166, 28, 39, 0.35) !important;
+}
+
+.cbi-signin-btn:hover {
+  background: #b82631 !important;
+  border-color: #ffc870 !important;
+  box-shadow: 0 0 15px rgba(184, 38, 49, 0.5) !important;
+  transform: translateY(-1px) !important;
 }
 
 /* ==========================================================
@@ -27,7 +245,6 @@
   pointer-events: none;
 }
 
-/* Rotates the portrait 735x1306 file into a 1306x735 16:9 widescreen laptop wallpaper */
 .cbi-backdrop-img {
   width: 100vh;
   height: 100vw;
@@ -37,17 +254,16 @@
   transition: opacity 0.4s ease-in-out;
 }
 
-/* Dark Noir Cinematic Overlay */
 .cbi-backdrop-overlay {
   position: absolute;
   inset: 0;
   background: radial-gradient(
       circle at 50% 25%,
-      rgba(18, 10, 14, 0.7) 0%,
-      rgba(9, 12, 17, 0.88) 60%,
+      rgba(18, 10, 14, 0.72) 0%,
+      rgba(9, 12, 17, 0.90) 60%,
       rgba(3, 4, 7, 0.98) 100%
     ),
-    linear-gradient(to bottom, rgba(4, 5, 8, 0.35) 0%, rgba(4, 5, 8, 0.96) 100%);
+    linear-gradient(to bottom, rgba(4, 5, 8, 0.4) 0%, rgba(4, 5, 8, 0.96) 100%);
 }
 
 /* Main Content Layer */
@@ -59,12 +275,14 @@
   padding: 0 24px;
 }
 
-/* Hero Section */
+/* ==========================================================
+   HERO SECTION
+   ========================================================== */
 .cbi-hero-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 45px 0 32px;
+  padding: 40px 0 32px;
   gap: 30px;
 }
 
@@ -124,8 +342,8 @@
 
 /* Wallpaper Switcher Badges */
 .cbi-wallpaper-switcher {
-  background: rgba(14, 18, 25, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(14, 18, 25, 0.85);
+  border: 1px solid rgba(255, 200, 112, 0.2);
   padding: 14px 18px;
   border-radius: 12px;
   backdrop-filter: blur(10px);
@@ -203,7 +421,6 @@
   background: #0d0f14;
 }
 
-/* Cancels all upside rotation - completely upright */
 .hero-pro-img {
   width: 100%;
   height: 100%;
@@ -452,6 +669,11 @@
   letter-spacing: 1.5px;
 }
 
+.case-badges-group {
+  display: flex;
+  gap: 6px;
+}
+
 .case-diff-badge {
   font-size: 10px;
   font-weight: 800;
@@ -461,6 +683,17 @@
   background: rgba(184, 38, 49, 0.25);
   color: #ff7882;
   border: 1px solid rgba(184, 38, 49, 0.5);
+}
+
+.case-status-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(92, 219, 149, 0.15);
+  color: #5cdb95;
+  border: 1px solid rgba(92, 219, 149, 0.4);
 }
 
 .case-card-reloaded h3 {

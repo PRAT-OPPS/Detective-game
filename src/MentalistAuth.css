@@ -1,553 +1,66 @@
 /* ==========================================================
-   THE MENTALIST (CBI SACRAMENTO) AUTHENTICATION SYSTEM
+   NETFLIX × THE MENTALIST AUTHENTICATION & SQL STYLES
    ========================================================== */
 
-.mentalist-auth-wrapper {
+.netflix-login-wrapper,
+.netflix-register-wrapper {
   position: relative;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 20px;
-  background: radial-gradient(circle at 50% 20%, #1c0a0e 0%, #0c0e14 70%, #050608 100%);
-  color: #e4e7eb;
+  background-color: #0c0e14;
+  background-image: radial-gradient(circle at 50% 10%, #1e090f 0%, #0b0d12 65%, #050608 100%);
+  color: #ffffff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
+  padding-bottom: 60px;
 }
 
-/* Background Atmosphere & Red John Easter Egg */
-.mentalist-auth-bg {
+/* Background Film Grain Vignette */
+.netflix-backdrop-overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  overflow: hidden;
+  background: radial-gradient(circle at 50% 40%, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
 }
 
-.cbi-watermark {
-  position: absolute;
-  right: -40px;
-  bottom: -60px;
-  font-size: 260px;
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.018);
-  user-select: none;
-  letter-spacing: 10px;
-}
-
-.redjohn-smiley {
-  position: absolute;
-  top: 40px;
-  left: 60px;
-  font-size: 55px;
-  color: rgba(180, 20, 30, 0.28);
-  font-weight: 900;
-  transform: rotate(20deg);
-  text-shadow: 0 0 25px rgba(220, 20, 30, 0.45);
-  user-select: none;
-}
-
-/* Card Container */
-.mentalist-auth-card {
+/* Netflix Header Bar */
+.netflix-header {
   position: relative;
-  width: 100%;
-  max-width: 520px;
-  background: rgba(17, 21, 30, 0.88);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(195, 45, 55, 0.35);
-  border-radius: 14px;
-  padding: 38px 34px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(180, 30, 45, 0.15);
-  z-index: 2;
-}
-
-.mentalist-auth-card.register-wide {
-  max-width: 740px;
-}
-
-/* Header */
-.cbi-badge-header {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 20px;
-}
-
-.cbi-seal {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #8a141c 0%, #3a080d 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffc870;
-  border: 2px solid rgba(255, 200, 112, 0.4);
-  box-shadow: 0 0 20px rgba(180, 20, 30, 0.4);
-}
-
-.cbi-titles .cbi-department {
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: #c99342;
-  font-weight: 700;
-  display: block;
-}
-
-.cbi-titles h2 {
-  font-size: 20px;
-  margin: 4px 0 2px;
-  color: #ffffff;
-  letter-spacing: 1px;
-}
-
-.cbi-titles .cbi-subtag {
-  font-size: 10.5px;
-  letter-spacing: 1.5px;
-  color: #8b949e;
-}
-
-/* Mentalist Quote Banner */
-.mentalist-quote-box {
-  background: rgba(30, 16, 20, 0.6);
-  border-left: 3px solid #b82631;
-  padding: 12px 16px;
-  border-radius: 0 8px 8px 0;
-  margin-bottom: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.mentalist-quote-box .quote-icon {
-  color: #d89e47;
-}
-
-.mentalist-quote-box p {
-  font-size: 13.5px;
-  color: #dedede;
-  margin: 0;
-}
-
-.mentalist-quote-box span {
-  font-size: 11px;
-  color: #9d9d9d;
-  align-self: flex-end;
-}
-
-/* Form Controls */
-.mentalist-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.form-two-column {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-@media (max-width: 650px) {
-  .form-two-column {
-    grid-template-columns: 1fr;
-  }
-}
-
-.input-group label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  color: #b1b9c4;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-}
-
-.input-field {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(11, 14, 20, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  padding: 11px 14px;
-  color: #8b949e;
-  transition: all 0.2s ease;
-}
-
-.input-field:focus-within {
-  border-color: #b82631;
-  box-shadow: 0 0 12px rgba(184, 38, 49, 0.35);
-  color: #ffc870;
-}
-
-.input-field input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #ffffff;
-  width: 100%;
-  font-size: 14px;
-}
-
-.input-field input::placeholder {
-  color: #555d68;
-}
-
-/* Submit Button */
-.cbi-submit-btn {
-  background: linear-gradient(135deg, #a61c27 0%, #680d14 100%);
-  color: #ffffff;
-  border: 1px solid rgba(255, 200, 112, 0.3);
-  border-radius: 8px;
-  padding: 13px 20px;
-  font-size: 14.5px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.2s ease;
-  box-shadow: 0 6px 20px rgba(166, 28, 39, 0.35);
-  margin-top: 6px;
-}
-
-.cbi-submit-btn:hover {
-  background: linear-gradient(135deg, #bf222f 0%, #7d1019 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 25px rgba(191, 34, 47, 0.5);
-}
-
-/* Avatar Selector */
-
-/* ==========================================================
-   PERFECTED CBI AVATAR SELECTOR GRID & CARDS
-   ========================================================== */
-
-.avatar-selection-container {
-  margin-bottom: 20px;
-}
-
-.section-label {
-  display: block;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  color: #c99342;
-  font-weight: 700;
-  margin-bottom: 14px;
-}
-
-/* Equal 6-column grid with clean wrapping */
-.avatar-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-@media (max-width: 820px) {
-  .avatar-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .avatar-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Individual card with fixed uniform height & clean spacing */
-.avatar-option-card {
-  background: rgba(15, 18, 25, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 12px;
-  padding: 14px 8px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  min-height: 165px;
-  justify-content: flex-start;
-  position: relative;
-}
-
-.avatar-option-card:hover {
-  border-color: rgba(255, 200, 112, 0.5);
-  transform: translateY(-3px);
-  background: rgba(26, 20, 26, 0.85);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-}
-
-.avatar-option-card.selected {
-  border-color: #b82631;
-  background: radial-gradient(circle at 50% 0%, rgba(138, 20, 28, 0.45) 0%, rgba(18, 12, 16, 0.9) 100%);
-  box-shadow: 0 0 20px rgba(184, 38, 49, 0.55), inset 0 0 12px rgba(184, 38, 49, 0.2);
-}
-
-/* Portrait circular frame with top-focused face alignment */
-.avatar-img-frame {
-  position: relative;
-  width: 66px;
-  height: 66px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-  flex-shrink: 0;
-}
-
-.avatar-img-frame img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: top center; /* Keeps actor faces centered */
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  background: #0d0f14;
-}
-
-.avatar-option-card.selected .avatar-img-frame img {
-  border-color: #ffc870;
-  box-shadow: 0 0 12px rgba(255, 200, 112, 0.5);
-}
-
-/* Checkmark indicator badge */
-.selected-badge-check {
-  position: absolute;
-  bottom: 0;
-  right: -2px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #b82631;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #0f1219;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-}
-
-/* Typography alignment */
-.avatar-name {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: #ffffff;
-  display: block;
-  margin-bottom: 3px;
-  line-height: 1.25;
-}
-
-.avatar-role {
-  font-size: 10px;
-  color: #8b949e;
-  line-height: 1.25;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;              /* Standard property (removes linter warning) */
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Spotlight quote banner beneath cards */
-.selected-spotlight {
-  background: rgba(26, 12, 16, 0.6);
-  border: 1px solid rgba(184, 38, 49, 0.35);
-  padding: 12px 18px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-top: 8px;
+  align-items: center;
+  padding: 24px 5%;
+  z-index: 10;
 }
 
-.spotlight-badge-id {
+.netflix-brand-title {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #e50914;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-shadow: 0 0 25px rgba(229, 9, 20, 0.5);
+}
+
+.netflix-cbi-tag {
+  background: #e50914;
+  color: #fff;
   font-size: 11px;
-  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+}
+
+.netflix-sql-pill {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffc870;
-  letter-spacing: 1.5px;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 5px 10px;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 200, 112, 0.25);
-  flex-shrink: 0;
-}
-
-.spotlight-quote {
-  font-size: 12.5px;
-  color: #d8dde4;
-  font-style: italic;
-  margin: 0;
-}
-
-/* Quick Demo Logins */
-.quick-demo-section {
-  margin-top: 22px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.divider-label {
-  display: block;
-  font-size: 10.5px;
-  letter-spacing: 1.5px;
-  color: #79828e;
-  font-weight: 700;
-  margin-bottom: 12px;
-  text-align: center;
-}
-
-.demo-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.demo-agent-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 10px 12px;
-  border-radius: 8px;
-  color: #e4e7eb;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.2s ease;
-}
-
-.demo-agent-btn:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 200, 112, 0.4);
-}
-
-.demo-avatar {
-  font-size: 20px;
-}
-
-.demo-agent-btn strong {
-  display: block;
-  font-size: 12.5px;
-  color: #fff;
-}
-
-.demo-agent-btn small {
-  font-size: 10.5px;
-  color: #ffc870;
-}
-
-/* Alert Notification */
-.auth-alert {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 14px;
-  border-radius: 8px;
-  font-size: 13px;
-  margin-bottom: 12px;
-}
-
-.auth-alert.error {
-  background: rgba(184, 38, 49, 0.18);
-  border: 1px solid rgba(184, 38, 49, 0.5);
-  color: #ff8e95;
-}
-
-/* Footer Link */
-.auth-footer-link {
-  margin-top: 22px;
-  text-align: center;
-  font-size: 13px;
-  color: #8b949e;
-}
-
-.auth-footer-link a {
-  color: #ffc870;
-  text-decoration: none;
-  font-weight: 600;
-  margin-left: 5px;
-}
-
-.auth-footer-link a:hover {
-  text-decoration: underline;
-}
-
-/* Navbar Profile Integration */
-.navbar-auth-section {
-  display: flex;
-  align-items: center;
-}
-
-.cbi-agent-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 5px 10px 5px 6px;
-  border-radius: 30px;
-}
-
-.cbi-nav-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid #ffc870;
-}
-
-.cbi-agent-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.cbi-agent-name {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.2;
-}
-
-.cbi-agent-badge {
-  font-size: 9.5px;
-  color: #ffc870;
-  letter-spacing: 0.8px;
-}
-
-.cbi-logout-btn {
-  background: transparent;
-  border: none;
-  color: #8b949e;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-}
-
-.cbi-logout-btn:hover {
-  color: #ff6e78;
-  background: rgba(255, 110, 120, 0.15);
-}
-
-.cbi-signin-btn {
-  background: linear-gradient(135deg, #a61c27, #680d14);
-  border: 1px solid rgba(255, 200, 112, 0.3);
-  color: #fff;
   padding: 8px 16px;
   border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -555,7 +68,489 @@
   transition: all 0.2s ease;
 }
 
-.cbi-signin-btn:hover {
-  background: linear-gradient(135deg, #bf222f, #7d1019);
-  transform: translateY(-1px);
+.netflix-sql-pill:hover {
+  background: rgba(229, 9, 20, 0.25);
+  border-color: #e50914;
+  color: #fff;
+}
+
+.netflix-login-link-btn {
+  background: #e50914;
+  color: #fff;
+  padding: 7px 18px;
+  border-radius: 4px;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.netflix-login-link-btn:hover {
+  background: #c10712;
+}
+
+/* ==========================================================
+   NETFLIX SIGN IN CARD
+   ========================================================== */
+
+.netflix-login-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  z-index: 10;
+}
+
+.netflix-login-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(0, 0, 0, 0.78);
+  border-radius: 10px;
+  padding: 48px 48px 40px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(229, 9, 20, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.netflix-login-card h1 {
+  font-size: 32px;
+  color: #ffffff;
+  margin: 0 0 28px;
+  font-weight: 800;
+}
+
+.netflix-error-banner {
+  background: #e87c03;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Netflix Floating Style Inputs */
+.netflix-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.netflix-input-group input {
+  width: 100%;
+  background: #16181f;
+  border: 1px solid #333842;
+  border-radius: 6px;
+  color: #fff;
+  padding: 16px 16px;
+  font-size: 14.5px;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  box-sizing: border-box;
+}
+
+.netflix-input-group input:focus {
+  border-color: #e50914;
+  background: #1e222b;
+}
+
+.netflix-submit-btn {
+  background: #e50914;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 10px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.netflix-submit-btn:hover {
+  background: #f40612;
+  transform: scale(1.01);
+}
+
+.netflix-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.netflix-form-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #8b949e;
+  margin-top: 4px;
+}
+
+.netflix-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.netflix-form-meta a {
+  color: #8b949e;
+  text-decoration: none;
+}
+
+.netflix-form-meta a:hover {
+  text-decoration: underline;
+}
+
+/* Quick Profiles Row */
+.netflix-quick-profiles {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quick-title {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #ffc870;
+  font-weight: 800;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.quick-avatar-row {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.quick-avatar-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.quick-avatar-pill:hover {
+  transform: translateY(-4px);
+}
+
+.quick-avatar-pill img {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 2px solid transparent;
+}
+
+.quick-avatar-pill:hover img {
+  border-color: #e50914;
+  box-shadow: 0 0 14px rgba(229, 9, 20, 0.5);
+}
+
+.quick-avatar-pill span {
+  font-size: 11px;
+  color: #c9d1d9;
+}
+
+/* Card Footer */
+.netflix-card-footer {
+  margin-top: 28px;
+}
+
+.netflix-card-footer p {
+  color: #737373;
+  font-size: 15px;
+  margin: 0 0 10px;
+}
+
+.netflix-signup-link {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.netflix-signup-link:hover {
+  text-decoration: underline;
+}
+
+.netflix-recaptcha-text {
+  font-size: 11px;
+  color: #8c8c8c;
+  display: block;
+}
+
+/* ==========================================================
+   NETFLIX "WHO'S INVESTIGATING?" REGISTRATION SCREEN
+   ========================================================== */
+
+.netflix-register-container {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  z-index: 10;
+}
+
+.netflix-avatar-hero-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.netflix-avatar-hero-section h1 {
+  font-size: clamp(34px, 4vw, 50px);
+  color: #ffffff;
+  margin: 0 0 8px;
+  font-weight: 800;
+}
+
+.netflix-avatar-hero-section p {
+  font-size: 16px;
+  color: #8b949e;
+  margin: 0 0 32px;
+}
+
+/* Profile Grid */
+.netflix-profiles-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.netflix-profile-card {
+  width: 140px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.netflix-profile-card:hover {
+  transform: scale(1.08);
+}
+
+.profile-img-frame {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 3px solid transparent;
+  position: relative;
+  background: #141822;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.netflix-profile-card:hover .profile-img-frame {
+  border-color: #ffffff;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+}
+
+.netflix-profile-card.selected .profile-img-frame {
+  border-color: #e50914;
+  box-shadow: 0 0 30px rgba(229, 9, 20, 0.7);
+}
+
+.netflix-check-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #e50914;
+  color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-agent-name {
+  font-size: 15px;
+  color: #808080;
+  margin-top: 12px;
+  transition: color 0.2s ease;
+}
+
+.netflix-profile-card:hover .profile-agent-name,
+.netflix-profile-card.selected .profile-agent-name {
+  color: #ffffff;
+}
+
+.profile-agent-role {
+  font-size: 11px;
+  color: #ffc870;
+  margin-top: 2px;
+}
+
+/* Registration Form Card */
+.netflix-register-card {
+  max-width: 580px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 10px;
+  padding: 38px 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+.card-heading-tag span {
+  font-size: 10.5px;
+  color: #ffc870;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.netflix-register-card h2 {
+  font-size: 26px;
+  color: #fff;
+  margin: 0 0 4px;
+}
+
+.card-sub-desc {
+  font-size: 13.5px;
+  color: #8b949e;
+  margin: 0 0 24px;
+}
+
+.card-sub-desc strong {
+  color: #e50914;
+}
+
+.netflix-input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 600px) {
+  .netflix-input-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   INTERACTIVE SQL TERMINAL MODAL
+   ========================================================== */
+
+.sql-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 200;
+}
+
+.sql-terminal-dialog {
+  width: 100%;
+  max-width: 720px;
+  background: #0d1017;
+  border: 1px solid #e50914;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(229, 9, 20, 0.3);
+}
+
+.sql-terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sql-term-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.close-sql-btn {
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  cursor: pointer;
+}
+
+.close-sql-btn:hover { color: #fff; }
+
+.sql-query-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.sql-query-bar input {
+  flex: 1;
+  background: #040608;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #5cdb95;
+  font-family: monospace;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.sql-query-bar button {
+  background: #e50914;
+  color: #fff;
+  border: none;
+  padding: 0 18px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sql-results-viewer {
+  background: #040608;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 16px;
+  max-height: 280px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+
+.sql-results-viewer pre {
+  margin: 0;
+  font-family: monospace;
+  font-size: 12px;
+  color: #ffc870;
+}
+
+.sql-schema-hints {
+  font-size: 11px;
+  color: #8b949e;
+}
+
+.sql-schema-hints code {
+  color: #5cdb95;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
 }
