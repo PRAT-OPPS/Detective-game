@@ -38,6 +38,12 @@ const CASE_SUGGESTED_QUESTIONS = {
     "Who spiked Arthur's glass with industrial potassium cyanide?",
     "Why does the elevator log show a descent at 10:52 PM?",
     "Why was the brass metronome ticking if Arthur despised it?"
+  ],
+  4: [
+    "Where were you at 11:47 PM when the watch stopped?",
+    "Explain the red message written across the study mirror.",
+    "What really happened to Anna Grey in Project Mirror?",
+    "Why was the study door deadbolted from the inside?"
   ]
 };
 
@@ -46,6 +52,126 @@ function generateSuspectResponse(suspect, userMessage, caseId) {
   const msg = userMessage.toLowerCase();
   const name = suspect.name;
   const numId = Number(caseId);
+
+  // ==========================================
+  // CASE 4: The Silent Witness (Dr. Adrian Blackwood)
+  // ==========================================
+  if (numId === 4) {
+    if (msg.includes("watch") || msg.includes("clock") || msg.includes("time") || msg.includes("11:47") || msg.includes("stopped") || msg.includes("pendulum")) {
+      if (name.includes("Sophia")) {
+        return "I was in the guest bedroom library reading clinical journals past 11 PM. If the antique watch seized at 11:47 PM during an altercation, my timeline is completely insulated.";
+      }
+      if (name.includes("Victoria")) {
+        return "Adrian checked that pocket watch constantly. If it stopped at 11:47 PM, that was when the final argument occurred.";
+      }
+      if (name.includes("Daniel")) {
+        return "I heard a crash around 11:45 PM from the billiards room! I rushed toward the study with Thomas! Don't look at me like I tampered with the watch!";
+      }
+      if (name.includes("Thomas")) {
+        return "The doctor kept that gold watch in his vest for twenty years. Whoever struck him stopped the hands right at the precipice of midnight.";
+      }
+      if (name.includes("Rebecca")) {
+        return "Check the balance wheel, detective. Adrian's watch was struck with deliberate blunt force. A stopped timepiece is the oldest staging trick in murder history.";
+      }
+    }
+
+    if (msg.includes("mirror") || msg.includes("message") || msg.includes("dead") || msg.includes("blood") || msg.includes("writing")) {
+      if (name.includes("Sophia")) {
+        return "'One of you is already dead.' It's classic Adrian—theatrical, manipulative, inducing paranoia. He probably wrote it himself before collapsing from cardiac failure.";
+      }
+      if (name.includes("Victoria")) {
+        return "That handwriting wasn't Adrian's hurried scrawl. It was deliberate, steady, written by someone whose hand wasn't trembling in the least.";
+      }
+      if (name.includes("Daniel")) {
+        return "It terrified me! When we broke down the door and saw that crimson text in the mirror... it felt like the ghost of Project Mirror had come back for us!";
+      }
+      if (name.includes("Thomas")) {
+        return "Adrian believed we were all walking corpses living inside false memories. That message was his final verdict on this house.";
+      }
+      if (name.includes("Rebecca")) {
+        return "That's not human blood on the glass. The texture is cosmetic surgical wax. Someone staged that mirror to trigger psychological panic among the guests.";
+      }
+    }
+
+    if (msg.includes("anna") || msg.includes("experiment") || msg.includes("project") || msg.includes("mirror") || msg.includes("child") || msg.includes("2006")) {
+      if (name.includes("Sophia")) {
+        return "Project Mirror was legitimate cognitive research into reconstructive memory! I was merely a young graduate assistant compiling data! Adrian was the sole architect!";
+      }
+      if (name.includes("Thomas")) {
+        return "Anna was eight years old. She loved wildflowers and her wooden music box. Adrian took her into that white room and told her her own name was an illusion. She never left.";
+      }
+      if (name.includes("Rebecca")) {
+        return "My mother spent twenty years in psychiatric facilities believing she killed her own brother because Adrian rewrote her childhood! He wasn't a healer—he was a butcher.";
+      }
+      if (name.includes("Daniel")) {
+        return "Subject 02... that was my file. He told me I watched terrible things. He made me doubt my own sanity until I couldn't trust what was real and what was manufactured!";
+      }
+      if (name.includes("Victoria")) {
+        return "I warned Adrian that those children would grow up, that the truth would escape. He laughed and said God never answers subpoenas.";
+      }
+    }
+
+    if (msg.includes("glass") || msg.includes("wine") || msg.includes("tumbler") || msg.includes("poison") || msg.includes("cyanide") || msg.includes("drink")) {
+      if (name.includes("Sophia")) {
+        return "Adrian took digitalis drops for his arrhythmia. If someone added a paralytic compound to his wine goblet, you should look for someone with access to his medicine cabinet.";
+      }
+      if (name.includes("Victoria")) {
+        return "Thomas always set the wine goblet on Adrian's blotter at 9 PM. Anyone in the mansion could have slipped something into that glass during dinner.";
+      }
+      if (name.includes("Thomas")) {
+        return "I brought the doctor his wine at 9 PM as I have for twenty years. The glass was untampered when I left it on his blotter.";
+      }
+      return "The shattered crystal near his right hand indicates he dropped it while trying to reach for the study bell. He died paralyzed, unable to call for help.";
+    }
+
+    if (msg.includes("recorder") || msg.includes("tape") || msg.includes("cassette") || msg.includes("audio") || msg.includes("record")) {
+      if (name.includes("Rebecca")) {
+        return "Yes, I brought a micro-recorder! I'm an investigative reporter! I needed Adrian on tape admitting that Project Mirror fabricated false trauma. But I wanted him alive in a courtroom!";
+      }
+      if (name.includes("Sophia")) {
+        return "Rebecca had a recording device? How convenient. A journalist desperate for a career-defining scoop has every motive to orchestrate a dramatic confrontation.";
+      }
+      return "Adrian recorded every single consultation in his basement archive. If there's an audio tape from tonight, the truth is already preserved.";
+    }
+
+    if (msg.includes("letter") || msg.includes("burnt") || msg.includes("will") || msg.includes("hearth")) {
+      if (name.includes("Victoria")) {
+        return "I found a draft of his amended will in the fireplace. Yes, my name was on it, but I didn't burn it! Someone tried destroying evidence of his blackmail!";
+      }
+      if (name.includes("Daniel")) {
+        return "My father threatened to burn my inheritance in front of my face. He laughed while tossing papers into the grate.";
+      }
+      return "The charred fragments recovered from the fireplace coals contain references to Victoria and Project Mirror.";
+    }
+
+    if (msg.includes("door") || msg.includes("locked") || msg.includes("key") || msg.includes("window")) {
+      if (name.includes("Sophia")) {
+        return "The study was deadbolted from the inside. Even with a master key, the interior brass slide was thrown. A locked room implies suicide or an impossible crime, detective.";
+      }
+      if (name.includes("Thomas")) {
+        return "Daniel and I had to throw our full weight against the oak door to splinter the lock bolt. No human being could have walked through that door after it was thrown.";
+      }
+      return "The mountain study has an antique service ventilation flue above the gallery partition. Someone who understood the architecture could trip the latch from above.";
+    }
+
+    if (msg.includes("kill") || msg.includes("murder") || msg.includes("die")) {
+      if (name.includes("Sophia")) {
+        return "Accusing me? I dedicated my career to psychiatric medicine! Killing Adrian would ruin my clinical reputation and destroy my research!";
+      }
+      if (name.includes("Daniel")) {
+        return "I hated him, yes! But I'm not a murderer! I wanted him to look me in the eye and apologize for what he did to my mind!";
+      }
+      if (name.includes("Victoria")) {
+        return "Adrian was worth far more to me alive with his publishing royalties than dead with a disputed holographic will. Murder would be financial suicide.";
+      }
+      if (name.includes("Thomas")) {
+        return "I've waited twenty years for justice. Murdering him in the dark would have cheated my daughter out of the public truth.";
+      }
+      if (name.includes("Rebecca")) {
+        return "I didn't travel through a mountain storm to kill an old man. I came to put him in federal prison.";
+      }
+    }
+  }
 
   // ==========================================
   // CASE 3: The Case of the Hollow Maestro
@@ -198,6 +324,21 @@ function generateSuspectResponse(suspect, userMessage, caseId) {
   }
 
   // General default fallback responses
+  if (name.includes("Sophia")) {
+    return "You're trying to evoke an emotional response to measure my vocal pitch, detective. It's a textbook psychiatric tactic, and it will not work on me.";
+  }
+  if (name.includes("Victoria")) {
+    return "My marriage was my own private business. You would do well to search for the real killer rather than auditing my personal life.";
+  }
+  if (name.includes("Daniel")) {
+    return "Quit interrogating me like a suspect! I'm the one who had his life shattered by Adrian!";
+  }
+  if (name.includes("Thomas")) {
+    return "I've spent twenty years walking these empty halls. I know when someone is lying, detective. And everyone in this house is lying.";
+  }
+  if (name.includes("Rebecca")) {
+    return "I'm a journalist. I know how to ask questions and I know when someone is deflecting. Ask me something with substance.";
+  }
   if (name.includes("Julian")) {
     return "Your hypothesis is charming, detective, but forensic speculation will not stand up in an appellate court.";
   }
@@ -331,6 +472,9 @@ function Interrogation() {
       lower.includes("elevator") ||
       lower.includes("pier") ||
       lower.includes("watch") ||
+      lower.includes("clock") ||
+      lower.includes("anna") ||
+      lower.includes("mirror") ||
       lower.includes("blood")
     ) {
       stressDelta = 16;
@@ -361,14 +505,20 @@ function Interrogation() {
         setTimeout(() => {
           let customJaneComment = `☕ Patrick Jane leans in: "Notice how ${currentSuspect.name}'s posture froze? Their pulse is racing. Press them on that exact detail."`;
 
-          if (currentSuspect.name.includes("Julian")) {
+          if (currentSuspect.name.includes("Sophia")) {
+            customJaneComment = `☕ Patrick Jane whispers: "Listen to her clinical detachment. She speaks of poison and locked doors like a scientific experiment. She's calculating every syllable."`;
+          } else if (currentSuspect.name.includes("Victoria")) {
+            customJaneComment = `☕ Patrick Jane smiles softly: "Watch her fingers clasping her rings tightly. She's mourning her security, not her husband."`;
+          } else if (currentSuspect.name.includes("Daniel")) {
+            customJaneComment = `☕ Patrick Jane observes: "Look at his knuckles whitening. That's genuine trauma, not guilt. Adrian broke his confidence long ago."`;
+          } else if (currentSuspect.name.includes("Thomas")) {
+            customJaneComment = `☕ Patrick Jane nods: "His grief is profound and twenty years deep. A father who holds a dead child's diary doesn't commit murder; he waits for justice."`;
+          } else if (currentSuspect.name.includes("Rebecca")) {
+            customJaneComment = `☕ Patrick Jane notes: "Her eyes dart to her audio recorder. A journalist who came to expose a monster, not silence him."`;
+          } else if (currentSuspect.name.includes("Julian")) {
             customJaneComment = `☕ Patrick Jane smiles softly: "Watch his left thumb, detective. He's polished that gold cufflink five times since you mentioned the ledger. He's terrified."`;
           } else if (currentSuspect.name.includes("Evelyn")) {
             customJaneComment = `☕ Patrick Jane whispers: "Listen to her breathing—rapid, shallow upper-chest. She's hiding her own break-in, but she didn't poison the glass."`;
-          } else if (currentSuspect.name.includes("Sterling")) {
-            customJaneComment = `☕ Patrick Jane sighs: "He tugs at his collar every time you say 'records.' Classic displacement activity for a guilty conscience."`;
-          } else if (currentSuspect.name.includes("Isaac")) {
-            customJaneComment = `☕ Patrick Jane observes: "Look at his jaw muscles clenching rhythmically. An ex-con measuring the physical exits. He's innocent of murder, but guilty of theft."`;
           }
 
           setMessages((prev) => [

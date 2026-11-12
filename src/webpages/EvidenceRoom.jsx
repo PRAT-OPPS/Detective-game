@@ -1,7 +1,10 @@
 // src/webpages/EvidenceRoom.jsx
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { cases } from "../data/cases";
 import { getEvidence } from "../utils/storage";
 import Navbar from "../components/Navbar";
@@ -15,166 +18,218 @@ import {
   Layers,
   ArrowRight,
   Coffee,
-  Sparkles,
   Compass,
-  ArrowLeft,
-  Gavel
+  Box
 } from "lucide-react";
 
-// Curated Photorealistic Forensic Item Imagery for Case 1, Case 2, & Case 3
+// Curated Photorealistic Forensic Item Imagery & Tells
 const REALISTIC_EVIDENCE_ASSETS = {
   // ==========================================
-  // Case 3: The Case of the Hollow Maestro
+  // Case 4: The Silent Witness (3D GLB Models)
   // ==========================================
-  "3-1": {
-    name: "Engraved Gold Cufflink",
-    frontPhoto:
-      "https://images.unsplash.com/photo-1590736969955-71cc94801759?w=600&auto=format&fit=crop&q=80",
-    reversePhoto:
-      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&auto=format&fit=crop&q=80",
-    reverseTell:
-      "REVERSE ANGLE INSPECTION: Microscopic balance-scale indentation. Gold purity matches Julian's mining portfolio."
-  },
-  "3-2": {
-    name: "Cyanide Tonic Tumbler",
-    frontPhoto:
-      "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&auto=format&fit=crop&q=80",
-    reversePhoto:
-      "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&auto=format&fit=crop&q=80",
-    reverseTell:
-      "REVERSE ANGLE INSPECTION: Bitter almond particulate residue adhering to crystal cuts. Cyanide dissolved in cold tonic water."
-  },
-  "3-3": {
-    name: "Elevator Electronic Log",
-    frontPhoto:
-      "https://images.unsplash.com/photo-1546776310-eef45dd6d63c?w=600&auto=format&fit=crop&q=80",
-    reversePhoto:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80",
-    reverseTell:
-      "REVERSE ANGLE INSPECTION: Cryptographic timestamp confirmed. Penthouse lift was called downward at exactly 10:52 PM."
-  },
-  "3-4": {
-    name: "Ticking Brass Metronome",
-    frontPhoto:
-      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop&q=80",
-    reversePhoto:
-      "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=600&auto=format&fit=crop&q=80",
-    reverseTell:
-      "REVERSE ANGLE INSPECTION: Partial thumb smudge on the brass sliding weight. Set to 60 BPM to create a false aura of theatrical suicide."
-  },
-
-  // ==========================================
-  // Case 2: Red Tide (Santa Marta Beach Cove)
-  // ==========================================
-  "2-1": {
-    name: "Waxed Red Surfboard",
-    frontPhoto:
-      "https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=600&auto=format&fit=crop&q=80",
-    reversePhoto:
-      "https://images.unsplash.com/photo-1508873696983-2df5293cb395?w=600&auto=format&fit=crop&q=80",
-    reverseTell:
-      "REVERSE ANGLE INSPECTION: High-pressure impact fracture near the tail fin matching Lance's board."
-  },
-  "2-2": {
-    name: "Stained Beach Towel",
-    frontPhoto:
-      "https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&auto=format&fit=crop&q=80",
-    reversePhoto:
-      "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=600&auto=format&fit=crop&q=80",
-    reverseTell:
-      "REVERSE ANGLE INSPECTION: Diesel engine grease and boat registration fiber transfer from the skiff."
-  },
-  "2-3": {
-    name: "Silver Shell Locket",
-    frontPhoto:
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&auto=format&fit=crop&q=80",
-    reversePhoto:
-      "https://images.unsplash.com/photo-1611591475155-426462725838?w=600&auto=format&fit=crop&q=80",
-    reverseTell:
-      "REVERSE ANGLE INSPECTION: Broken link clasp snapped by human force. Initials 'J.R.' engraved inside."
-  },
-  "2-4": {
-    name: "Saltwater Flashlight",
-    frontPhoto:
-      "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=600&auto=format&fit=crop&q=80",
-    reversePhoto:
-      "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=600&auto=format&fit=crop&q=80",
-    reverseTell:
-      "REVERSE ANGLE INSPECTION: Battery housing shattered with a quartz rock to kill illumination instantly."
-  },
-
-  // ==========================================
-  // Case 1: The Midnight Murder
-  // ==========================================
-  "1-1": {
-    name: "Broken Watch",
+  "4-1": {
+    name: "Antique Brass Pocket Watch",
+    glb: "/models/antique_luxury_pocket_watch_1147.glb",
     frontPhoto:
       "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&auto=format&fit=crop&q=80",
     reversePhoto:
       "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&auto=format&fit=crop&q=80",
     reverseTell:
-      "REVERSE ANGLE INSPECTION: Hairline crack in balance spring caused by a blunt strike from the left."
+      "REVERSE ANGLE INSPECTION: Blunt force impact halted the balance wheel at precisely 11:47 PM. Hairspring seized from an external lateral blow."
   },
-  "1-2": {
-    name: "Blood-stained Letter",
+  "4-2": {
+    name: "Victorian Evidence Mirror",
+    glb: "/models/antique_victorian_tabletop_mirror.glb",
+    frontPhoto:
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
+    reversePhoto:
+      "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&auto=format&fit=crop&q=80",
+    reverseTell:
+      "REVERSE ANGLE INSPECTION: Chemical analysis reveals medical-grade surgical wax and ferric dye from Dr. Miller's psychiatric kit, not human blood."
+  },
+  "4-3": {
+    name: "Partially Burnt Letter",
+    glb: "/models/partially_burnt_letter.glb",
     frontPhoto:
       "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&auto=format&fit=crop&q=80",
     reversePhoto:
       "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&auto=format&fit=crop&q=80",
     reverseTell:
-      "REVERSE ANGLE INSPECTION: Imprinted watermark of Morgan Family Crest paper from the study drawer."
+      "REVERSE ANGLE INSPECTION: Transmitted backlighting exposes iron-gall cursive: 'Victoria... He knows... Project Mirror...' proving premeditated silencing."
   },
-  "1-3": {
-    name: "Footprint",
+  "4-4": {
+    name: "2006 Institutional Photograph",
+    glb: "/models/evidence_photograph_2006.glb",
     frontPhoto:
-      "https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=600&auto=format&fit=crop&q=80",
     reversePhoto:
       "https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80",
     reverseTell:
-      "REVERSE ANGLE INSPECTION: Depth indent shows weight shifted back—the walker paused deliberately."
+      "REVERSE ANGLE INSPECTION: Depicts five children outside Blackwood clinic. The rightmost isolated child is Subject 05 (Anna Grey)."
   },
-  "1-4": {
-    name: "Silver Key",
+  "4-5": {
+    name: "Handheld Audio Recorder",
+    glb: "/models/handheld_audio_recorder.glb",
     frontPhoto:
-      "https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=600&auto=format&fit=crop&q=80",
     reversePhoto:
-      "https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&auto=format&fit=crop&q=80",
     reverseTell:
-      "REVERSE ANGLE INSPECTION: Microscopic scratches on teeth indicate it opened the study floor safe."
+      "REVERSE ANGLE INSPECTION: Track timer stopped at 00:47:12. Adrian's final consultation was recorded at 10:30 PM, proving Sophia killed him an hour before the alarm."
+  },
+  "4-6": {
+    name: "Victorian Crystal Wine Glass",
+    glb: "/models/antique_crystal_wine_glass.glb",
+    frontPhoto:
+      "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&auto=format&fit=crop&q=80",
+    reversePhoto:
+      "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&auto=format&fit=crop&q=80",
+    reverseTell:
+      "REVERSE ANGLE INSPECTION: Fatal potassium cyanide precipitate dissolved in vintage sediment. Latent thumbprint on stem knop matches Dr. Sophia Miller."
   }
 };
 
-// Resident Evil Mechanical Sound Synthesizer
-function playMechanicalAudio(type = "click") {
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
+// Interactive WebGL Viewer with Enhanced 3/4 Isometric Perspective
+function ThreeModelViewer({ glbPath }) {
+  const mountRef = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
+  useEffect(() => {
+    if (!mountRef.current || !glbPath) return;
 
-    if (type === "click") {
-      osc.type = "square";
-      osc.frequency.setValueAtTime(1200, ctx.currentTime);
-      gain.gain.setValueAtTime(0.04, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.04);
-    } else if (type === "flip") {
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(320, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(640, ctx.currentTime + 0.1);
-      gain.gain.setValueAtTime(0.08, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.12);
+    let scene, camera, renderer, controls, animationId;
+    let isMounted = true;
+    setLoading(true);
+    setLoadError(false);
+
+    try {
+      scene = new THREE.Scene();
+
+      const width = mountRef.current.clientWidth || 600;
+      const height = mountRef.current.clientHeight || 380;
+
+      // Elevated 3/4 isometric angle so front lids never clip the dial
+      camera = new THREE.PerspectiveCamera(45, width / height, 0.05, 100);
+      camera.position.set(0.6, 0.9, 2.2);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.4;
+
+      mountRef.current.replaceChildren(renderer.domElement);
+
+      controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.minDistance = 0.5;
+      controls.maxDistance = 4.5;
+      controls.target.set(0, 0, 0);
+
+      // Studio Lighting
+      const ambientLight = new THREE.AmbientLight(0xfff5e6, 1.6);
+      scene.add(ambientLight);
+
+      const keyLight = new THREE.DirectionalLight(0xfffaed, 2.8);
+      keyLight.position.set(3, 4, 3);
+      scene.add(keyLight);
+
+      const rimLight = new THREE.DirectionalLight(0xb82631, 1.8);
+      rimLight.position.set(-3, -2, -2);
+      scene.add(rimLight);
+
+      const fillLight = new THREE.DirectionalLight(0x7090b0, 1.3);
+      fillLight.position.set(-2, 2, 2);
+      scene.add(fillLight);
+
+      const loader = new GLTFLoader();
+      loader.load(
+        glbPath,
+        (gltf) => {
+          if (!isMounted) return;
+          const model = gltf.scene;
+
+          const box = new THREE.Box3().setFromObject(model);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const targetSize = 1.35;
+          const scale = targetSize / (maxDim || 1);
+          model.scale.setScalar(scale);
+
+          model.position.x = -center.x * scale;
+          model.position.y = -center.y * scale;
+          model.position.z = -center.z * scale;
+
+          // Default presentation tilt: reveals both the dial face and casing clearly
+          model.rotation.x = THREE.MathUtils.degToRad(-10);
+          model.rotation.y = THREE.MathUtils.degToRad(20);
+
+          scene.add(model);
+          setLoading(false);
+        },
+        undefined,
+        (err) => {
+          console.warn("Could not load GLB:", glbPath, err);
+          if (isMounted) {
+            setLoadError(true);
+            setLoading(false);
+          }
+        }
+      );
+
+      function animate() {
+        animationId = requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      function handleResize() {
+        if (!mountRef.current) return;
+        const w = mountRef.current.clientWidth;
+        const h = mountRef.current.clientHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      }
+      window.addEventListener("resize", handleResize);
+
+      return () => {
+        isMounted = false;
+        window.removeEventListener("resize", handleResize);
+        cancelAnimationFrame(animationId);
+        controls.dispose();
+        renderer.dispose();
+      };
+    } catch (e) {
+      setLoadError(true);
+      setLoading(false);
     }
-  } catch (err) {}
+  }, [glbPath]);
+
+  if (loadError) {
+    return (
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#8b949e", fontSize: "13px" }}>
+        3D Model File Pending. Click "View Photographic Angle" below.
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ width: "100%", height: "100%", position: "relative" }}>
+      {loading && (
+        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#ffc870", fontSize: "12px", letterSpacing: "1.5px", fontWeight: "700" }}>
+          STREAMING 3D MESH GEOMETRY...
+        </div>
+      )}
+      <div ref={mountRef} style={{ width: "100%", height: "100%", cursor: "grab" }} />
+    </div>
+  );
 }
 
 function EvidenceRoom() {
@@ -182,8 +237,6 @@ function EvidenceRoom() {
   const navigate = useNavigate();
 
   const currentCase = cases.find((c) => c.id === Number(id)) || cases[0];
-
-  // Load collected evidence or fallback to all case evidence for testing
   const savedEvidence = getEvidence(id);
   const availableEvidence =
     savedEvidence.length > 0 ? savedEvidence : currentCase?.evidence || [];
@@ -192,7 +245,7 @@ function EvidenceRoom() {
     availableEvidence[0] || currentCase?.evidence[0]
   );
 
-  // 3D Examination States
+  const [viewMode, setViewMode] = useState("3d");
   const [rotation, setRotation] = useState({ x: 12, y: -18 });
   const [zoom, setZoom] = useState(1);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -208,15 +261,14 @@ function EvidenceRoom() {
     );
   }
 
-  // Resident Evil Click & Drag 3D Turntable Movement
   function handleMouseDown(e) {
+    if (viewMode === "3d" && selectedItem?.glb) return;
     setIsDragging(true);
     setDragStart({ x: e.clientX, y: e.clientY });
-    playMechanicalAudio("click");
   }
 
   function handleMouseMove(e) {
-    if (!isDragging) return;
+    if (!isDragging || (viewMode === "3d" && selectedItem?.glb)) return;
     const deltaX = e.clientX - dragStart.x;
     const deltaY = e.clientY - dragStart.y;
 
@@ -238,8 +290,11 @@ function EvidenceRoom() {
       "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&auto=format&fit=crop&q=80",
     reversePhoto:
       "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&auto=format&fit=crop&q=80",
-    reverseTell: "Surface forensic examination shows microscopic particulate residue."
+    reverseTell: "Surface forensic examination shows microscopic particulate residue.",
+    glb: selectedItem?.glb || null
   };
+
+  const hasGlb = Boolean(selectedItem?.glb || assetData.glb);
 
   return (
     <div className="evidence-re-page" onMouseUp={handleMouseUp}>
@@ -262,7 +317,7 @@ function EvidenceRoom() {
 
         {/* Main Resident Evil Layout */}
         <div className="evidence-re-layout">
-          {/* Left: Resident Evil Inventory Slots */}
+          {/* Left: Inventory Slots */}
           <aside className="re-inventory-sidebar">
             <div className="inventory-slot-title">
               <span>EVIDENCE INVENTORY SLOTS</span>
@@ -282,11 +337,10 @@ function EvidenceRoom() {
                     setSelectedItem(item);
                     setIsFlipped(false);
                     setRotation({ x: 12, y: -18 });
-                    playMechanicalAudio("click");
                   }}
                 >
                   <div className="re-slot-thumbnail">
-                    <img src={itemAsset?.frontPhoto} alt={item.name} />
+                    <img src={itemAsset?.frontPhoto || item.image} alt={item.name} />
                   </div>
                   <div className="re-slot-info">
                     <h4>{item.name}</h4>
@@ -298,9 +352,9 @@ function EvidenceRoom() {
             })}
           </aside>
 
-          {/* Right: Resident Evil 3D Item Examination Chamber */}
+          {/* Right: 3D Item Examination Chamber */}
           <section className="re-examination-chamber">
-            {/* 3D Turntable Stage */}
+            {/* 3D Turntable / WebGL Stage */}
             <div
               className="re-3d-stage"
               onMouseDown={handleMouseDown}
@@ -310,70 +364,78 @@ function EvidenceRoom() {
 
               <div className="re-3d-drag-hint">
                 <Move size={13} />
-                <span>Drag to Rotate 3D</span>
+                <span>{hasGlb && viewMode === "3d" ? "Click & Drag Orbit (WebGL)" : "Drag to Rotate 3D"}</span>
               </div>
 
-              {/* Rotatable Object */}
-              <div
-                className="re-3d-object-wrap"
-                style={{
-                  transform: `rotateX(${rotation.x}deg) rotateY(${
-                    rotation.y + (isFlipped ? 180 : 0)
-                  }deg) scale(${zoom})`
-                }}
-              >
-                <div className="re-item-card-3d">
-                  <img
-                    src={isFlipped ? assetData.reversePhoto : assetData.frontPhoto}
-                    alt={selectedItem?.name}
-                    draggable={false}
-                  />
+              {hasGlb && viewMode === "3d" ? (
+                <ThreeModelViewer glbPath={selectedItem?.glb || assetData.glb} />
+              ) : (
+                <div
+                  className="re-3d-object-wrap"
+                  style={{
+                    transform: `rotateX(${rotation.x}deg) rotateY(${
+                      rotation.y + (isFlipped ? 180 : 0)
+                    }deg) scale(${zoom})`
+                  }}
+                >
+                  <div className="re-item-card-3d">
+                    <img
+                      src={isFlipped ? assetData.reversePhoto : assetData.frontPhoto}
+                      alt={selectedItem?.name}
+                      draggable={false}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="re-3d-grid-hud">
-                ROT: X:{Math.round(rotation.x)}° Y:{Math.round(rotation.y)}° // ZOOM:{zoom.toFixed(1)}x
+                {hasGlb && viewMode === "3d"
+                  ? "MODE: REAL-TIME 3D GLTF MESH // SHADERS: ACTIVE"
+                  : `ROT: X:${Math.round(rotation.x)}° Y:${Math.round(rotation.y)}° // ZOOM:${zoom.toFixed(1)}x`}
               </div>
             </div>
 
             {/* Resident Evil Examination Controls Strip */}
             <div className="re-controls-strip">
+              {hasGlb && (
+                <button
+                  className="re-ctrl-btn"
+                  onClick={() => setViewMode(viewMode === "3d" ? "photo" : "3d")}
+                  style={{
+                    background: viewMode === "3d" ? "#b82631" : "rgba(255, 255, 255, 0.08)",
+                    color: "#fff",
+                    borderColor: "#ffc870"
+                  }}
+                >
+                  <Box size={14} />
+                  <span>{viewMode === "3d" ? "3D Mesh (Active)" : "Switch to 3D WebGL"}</span>
+                </button>
+              )}
+
               <button
                 className="re-ctrl-btn"
-                onClick={() => {
-                  setRotation((prev) => ({ ...prev, y: prev.y - 45 }));
-                  playMechanicalAudio("click");
-                }}
+                onClick={() => setRotation((prev) => ({ ...prev, y: prev.y - 45 }))}
               >
                 <RotateCcw size={14} /> Rotate Left
               </button>
 
               <button
                 className="re-ctrl-btn"
-                onClick={() => {
-                  setRotation((prev) => ({ ...prev, y: prev.y + 45 }));
-                  playMechanicalAudio("click");
-                }}
+                onClick={() => setRotation((prev) => ({ ...prev, y: prev.y + 45 }))}
               >
                 <RotateCw size={14} /> Rotate Right
               </button>
 
               <button
                 className="re-ctrl-btn"
-                onClick={() => {
-                  setIsFlipped(!isFlipped);
-                  playMechanicalAudio("flip");
-                }}
+                onClick={() => setIsFlipped(!isFlipped)}
               >
-                <Layers size={14} /> {isFlipped ? "View Front" : "Inspect Reverse"}
+                <Layers size={14} /> {isFlipped ? "View Front" : "Inspect Reverse Tell"}
               </button>
 
               <button
                 className="re-ctrl-btn"
-                onClick={() => {
-                  setZoom((prev) => (prev >= 1.4 ? 1 : prev + 0.2));
-                  playMechanicalAudio("click");
-                }}
+                onClick={() => setZoom((prev) => (prev >= 1.4 ? 1 : prev + 0.2))}
               >
                 <ZoomIn size={14} /> Zoom ({zoom.toFixed(1)}x)
               </button>
@@ -388,7 +450,6 @@ function EvidenceRoom() {
 
               <p className="forensic-desc">{selectedItem?.description}</p>
 
-              {/* Reveal message on flip */}
               {isFlipped && (
                 <div
                   style={{
@@ -407,38 +468,31 @@ function EvidenceRoom() {
               )}
 
               {/* Jane's Psychological Assessment */}
-              <div className="re-jane-observation">
-                <Coffee size={20} color="#ffc870" style={{ flexShrink: 0 }} />
-                <div>
-                  <strong>PATRICK JANE'S FORENSIC OBSERVATION</strong>
-                  <span>
-                    "Rotate the object. The front is what the killer wanted us to find. The reverse and edges tell the true story."
-                  </span>
-                </div>
+              <div className="re-jane-insight-box">
+                <div className="insight-jane-badge">☕ JANE'S PSYCHOLOGICAL READ</div>
+                <p>
+                  "Objects tell the stories people are too terrified to confess. Look beyond what is visible—every fracture, scratch, and chemical residue reveals an emotional impulse."
+                </p>
               </div>
-            </div>
 
-            {/* Bottom Actions */}
-            <div className="re-chamber-actions">
-              <button
-                className="re-ctrl-btn"
-                onClick={() => navigate(`/crime-scene/${id}`)}
-              >
-                <ArrowLeft size={15} /> Revisit Crime Scene
-              </button>
+              {/* Bottom Nav Action Bar (Cleanly Separated) */}
+              <div className="re-nav-action-bar">
+                <button
+                  className="re-secondary-btn"
+                  onClick={() => navigate(`/crime-scene/${id}`)}
+                >
+                  <Compass size={15} />
+                  <span>Re-examine Crime Scene</span>
+                </button>
 
-              <button
-                className="re-ctrl-btn"
-                style={{
-                  background: "linear-gradient(135deg, #a61c27, #680d14)",
-                  color: "#fff",
-                  borderColor: "rgba(255, 200, 112, 0.35)"
-                }}
-                onClick={() => navigate(`/suspects/${id}`)}
-              >
-                <span>Confront Suspects with Clues</span>
-                <ArrowRight size={15} />
-              </button>
+                <button
+                  className="re-primary-btn"
+                  onClick={() => navigate(`/suspects/${id}`)}
+                >
+                  <span>Question Suspects</span>
+                  <ArrowRight size={15} />
+                </button>
+              </div>
             </div>
           </section>
         </div>

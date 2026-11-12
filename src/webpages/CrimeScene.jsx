@@ -59,6 +59,7 @@ function playCrimeAudio(type = "clue") {
 }
 
 // Multi-Case Crime Scene Visual & Forensic Coordinates
+// Multi-Case Crime Scene Visual & Forensic Coordinates
 const CASE_SCENE_DATA = {
   // Case 1: The Midnight Murder
   1: {
@@ -111,6 +112,28 @@ const CASE_SCENE_DATA = {
       2: "Smell that faint bitter almond? Unrefined industrial cyanide. Not a chemist's poison—this came from an industrial gold-mining syndicate.",
       3: "Penthouse elevator called down at 10:52 PM. Julian swore on his corporate reputation he was dining across town at 10:30 PM.",
       4: "Set to 60 BPM. Arthur despised metronomes; he was a synesthete. The killer set this theatrical scene to mock an occult suicide."
+    }
+  },
+
+    // Case 4: The Silent Witness (Blackwood Manor Study)
+  4: {
+    photoUrl:
+      "https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=1600&auto=format&fit=crop&q=80",
+    hotspots: {
+      1: { x: 44, y: 70, label: "Mahogany Study Desk & Pocket Watch" },
+      2: { x: 26, y: 50, label: "Vanity Mirror Writing" },
+      3: { x: 68, y: 74, label: "Fireplace Burnt Parchment" },
+      4: { x: 74, y: 46, label: "Archive Cold-Case Photo" },
+      5: { x: 84, y: 62, label: "Ventilation Shaft Audio Recorder" },
+      6: { x: 38, y: 78, label: "Crystal Wine Goblet" }
+    },
+    observations: {
+      1: "Antique brass pocket watch with crystal face fractured. The balance wheel stopped permanently at 11:47 PM from blunt impact.",
+      2: "Written in red cosmetic greasepaint: 'ONE OF YOU IS ALREADY DEAD.' A psychological taunt designed to incite paranoia.",
+      3: "Charred linen paper retrieved from the fireplace coals. Faded cursive reveals: 'Victoria... He knows... Project Mirror...'",
+      4: "Project Mirror institutional photo from 2006. Five children standing outside the Blackwood clinic; Subject 05 stands isolated.",
+      5: "Handheld audio recorder with twin mic capsules. The LED is frozen at track timer 00:47:12—the fatal final conversation.",
+      6: "Cut-crystal wine glass with vintage sediment. A faint bitter almond scent indicates dissolved potassium cyanide."
     }
   }
 };

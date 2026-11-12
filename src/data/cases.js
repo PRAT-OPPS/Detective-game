@@ -72,7 +72,7 @@ export const cases = [
   },
 
   // ==========================================
-  // CASE 2: Red Tide (The Mentalist S01E03)
+  // CASE 2: Red Tide
   // ==========================================
   {
     id: 2,
@@ -218,5 +218,111 @@ export const cases = [
       }
     ],
     culprit: 1 // Julian Vance
+  },
+
+  // ==========================================
+  // CASE 4: The Silent Witness (With 3D Forensic Assets)
+  // ==========================================
+  {
+    id: 4,
+    title: "The Silent Witness",
+    victim: "Dr. Adrian Blackwood (Age 58)",
+    location: "Blackwood Manor — Mountain Study",
+    description:
+      "Renowned psychologist Dr. Adrian Blackwood was found dead inside his deadbolted mountain study at 11:47 PM with shattered crystal, a stopped clock, and a message scrawled on the vanity mirror in crimson: 'ONE OF YOU IS ALREADY DEAD.' Hidden within the locked-room execution lies Project Mirror—a classified psychological experiment from twenty years ago that was never supposed to exist.",
+    status: "unsolved",
+    difficulty: "Mastermind",
+    suspects: [
+      {
+        id: 1,
+        name: "Victoria Blackwood",
+        role: "Estranged Wife & Accomplice Observer",
+        statement: "Happiness is an emotional condition; marriage is a permanent legal arrangement. Adrian was rewriting his will to destroy me, but I never touched his drink.",
+        alibi: "Master Suite (Reading until midnight)",
+        traits: { defensiveness: 80, deception: 75, guilt: 50, consistency: 65 },
+        personality: "Sophisticated, ice-cold, folds hands motionless, deflects emotional questions with transactional legalities."
+      },
+      {
+        id: 2,
+        name: "Daniel Blackwood",
+        role: "Disinherited Son & Subject 02",
+        statement: "I argued with my father yesterday and punched the study wall, not him! He ruined our childhoods... half the things I remember didn't even happen!",
+        alibi: "Billiards Room (Drinking alone)",
+        traits: { defensiveness: 90, deception: 65, guilt: 70, consistency: 38 },
+        personality: "Volatile, clenches fists, taps knuckles rapidly against the table, hyperventilates when childhood memories are challenged."
+      },
+      {
+        id: 3,
+        name: "Dr. Sophia Miller",
+        role: "Research Partner & Project Mirror Assistant (The Culprit)",
+        statement: "I was merely Adrian's clinical assistant. I left his study before 11 PM after urging him not to publish classified subject files. Check the security lock.",
+        alibi: "Guest Bedroom Library (Reviewing journals)",
+        traits: { defensiveness: 94, deception: 98, guilt: 20, consistency: 52 },
+        personality: "Hyper-composed, clinical terminology, rigid posture, studies the interrogator, masks premeditated murder behind psychiatric theory."
+      },
+      {
+        id: 4,
+        name: "Thomas Grey",
+        role: "Manor Caretaker & Bereaved Father",
+        statement: "My daughter Anna was taken into Project Mirror twenty years ago and never came home. The official verdict was an accident, but I know Adrian destroyed her.",
+        alibi: "Grounds Maintenance Shed",
+        traits: { defensiveness: 45, deception: 30, guilt: 85, consistency: 88 },
+        personality: "Stoic, sorrowful, quiet rasping voice, grips his wooden pocket cross, speaks in riddles about the darkness."
+      },
+      {
+        id: 5,
+        name: "Rebecca Shaw",
+        role: "Investigative Journalist & Daughter of Subject",
+        statement: "Adrian convinced my mother she killed her own brother when it was all a fabricated lie! I brought a hidden recorder to force his confession, not murder him!",
+        alibi: "Solarium (Reviewing audio logs)",
+        traits: { defensiveness: 60, deception: 70, guilt: 30, consistency: 76 },
+        personality: "Fearless, sharp smirk, investigative cadence, counter-questions the detective, conceals a micro-cassette recorder."
+      }
+    ],
+    evidence: [
+      {
+        id: 1,
+        name: "Antique Brass Pocket Watch",
+        icon: "⌚",
+        description: "Victorian brass pocket watch with balance wheel permanently seized at 11:47 PM from blunt force trauma.",
+        glb: "/models/antique_luxury_pocket_watch_1147.glb"
+      },
+      {
+        id: 2,
+        name: "Victorian Evidence Mirror",
+        icon: "🪞",
+        description: "Bronze tabletop mirror with hairline stress fractures and a sinister crimson message: 'ONE OF YOU IS ALREADY DEAD.'",
+        glb: "/models/antique_victorian_tabletop_mirror.glb"
+      },
+      {
+        id: 3,
+        name: "Partially Burnt Letter",
+        icon: "📜",
+        description: "Charred parchment retrieved from the hearth, bearing iron-gall cursive: 'Victoria... He knows... Project Mirror...'",
+        glb: "/models/partially_burnt_letter.glb"
+      },
+      {
+        id: 4,
+        name: "2006 Institutional Photograph",
+        icon: "📷",
+        description: "Archival cold case photo of five children standing outside the Blackwood institution during Project Mirror.",
+        glb: "/models/evidence_photograph_2006.glb"
+      },
+      {
+        id: 5,
+        name: "Handheld Audio Recorder",
+        icon: "🎙️",
+        description: "Digital recorder with twin mic capsules and track timer 00:47:12, recording the fatal final consultation.",
+        glb: "/models/handheld_audio_recorder.glb"
+      },
+      {
+        id: 6,
+        name: "Victorian Crystal Wine Glass",
+        icon: "🍷",
+        description: "Cut-crystal goblet with burgundy sediment containing dissolved cyanide precipitate and a latent knop thumbprint.",
+        glb: "/models/antique_crystal_wine_glass.glb"
+      }
+    ],
+    culprit: 3 // Dr. Sophia Miller
   }
 ];

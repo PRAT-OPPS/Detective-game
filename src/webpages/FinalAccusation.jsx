@@ -32,7 +32,14 @@ const SUSPECT_PHOTOS = {
   "3-1": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=450&auto=format&fit=crop&q=80", // Julian Vance
   "3-2": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=450&auto=format&fit=crop&q=80", // Evelyn Cross
   "3-3": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=450&auto=format&fit=crop&q=80", // Dr. Mark Sterling
-  "3-4": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=450&auto=format&fit=crop&q=80"  // Isaac Cole
+  "3-4": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=450&auto=format&fit=crop&q=80", // Isaac Cole
+
+  // Case 4: The Silent Witness
+  "4-1": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=450&auto=format&fit=crop&q=80", // Victoria Blackwood
+  "4-2": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=450&auto=format&fit=crop&q=80", // Daniel Blackwood
+  "4-3": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=450&auto=format&fit=crop&q=80", // Dr. Sophia Miller (Culprit)
+  "4-4": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=450&auto=format&fit=crop&q=80", // Thomas Grey
+  "4-5": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=450&auto=format&fit=crop&q=80"  // Rebecca Shaw
 };
 
 const VERDICT_STORIES = {
@@ -93,6 +100,34 @@ const VERDICT_STORIES = {
     correct: false,
     defense:
       "I did ten years in Pelican Bay for cracking safes, and I swore I'd never go back. Pendelton blackmailed me into unpaid cataloging in the basement. I wanted the Byzantine coin collection, yes, but I didn't kill him! Look at his partner Julian Vance!"
+  },
+
+  // Case 4: The Silent Witness
+  "4-3": {
+    correct: true,
+    confession:
+      "He was going to destroy everything! Adrian spent twenty years living like a god in this mountainside sanctuary while the rest of us carried the rot of what we did in Project Mirror! Yesterday afternoon, he called me into his study, opened his safe, and laid out the original untouched records. He smiled that sanctimonious smile and said, 'Tomorrow, the medical board receives the truth.' He was going to scapegoat me, Thomas, Victoria—everyone except himself! He was going to walk away as the heroic whistleblower who 'uncovered' the abuse! So I altered the timeline. I slipped the cardiac paralytic into his wine goblet at 10:30 PM, jammed the watch with a magnetic pin at 11:47 PM, and latched the deadbolt using the study's service passkey through the gallery vent. The mirror? That was for all of you. To make you tear each other apart while I walked out clean! He destroyed five children twenty years ago... he deserved to die in the dark!",
+    defense: ""
+  },
+  "4-1": {
+    correct: false,
+    defense:
+      "Are you losing your senses, detective?! I hated Adrian for stripping my livelihood, and heaven knows I knew his experiments were monstrous, but I was in the master suite reading with my sleeping draught! I burned the draft agreement out of grief and panic, not guilt! Arresting the widow without a shred of forensic proof is disgraceful!"
+  },
+  "4-2": {
+    correct: false,
+    defense:
+      "I didn't kill him! Yes, I screamed at him, yes, I put my fist through the drywall in the corridor, but I was six years old when he twisted my head in that clinic! Half my nightmares aren't even real memories! I wanted answers from my father, not a corpse!"
+  },
+  "4-4": {
+    correct: false,
+    defense:
+      "I worked twenty-three years in this manor keeping silent for my poor Anna. I kept her diary so her name wouldn't be wiped from the earth. I wanted Adrian to answer before God, but my hands are clean of blood. Dr. Miller was the one whispering in his study before the storm broke."
+  },
+  "4-5": {
+    correct: false,
+    defense:
+      "Look at my recorder, detective! Dead men don't confess under oath! My entire life's work was clearing my mother's name and exposing Adrian's psychological torture on the front page of every national paper. Murdering him would have buried the truth forever!"
   }
 };
 
@@ -106,12 +141,11 @@ function FinalAccusation() {
   const [verdictResult, setVerdictResult] = useState(null);
   const [isShaking, setIsShaking] = useState(false);
 
-  // Accusation Room Lifecycle: Starts Red John Theme, STOPS on leave
+  // Accusation Room Lifecycle: Starts Interrogation Theme, STOPS on leave
   useEffect(() => {
     soundManager.playInterrogationTheme();
 
     return () => {
-      // Guaranteed stop when leaving the Accusation room
       soundManager.stopAll();
     };
   }, []);
@@ -140,10 +174,8 @@ function FinalAccusation() {
     const chosenSuspect = suspects.find((s) => s.id === Number(selectedSuspectId));
 
     if (isCorrect) {
-      // STOPS Interrogation theme and switches immediately to Victory!
       soundManager.playVictoryTheme();
     } else {
-      // Screen shake animation
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 600);
     }
@@ -157,7 +189,6 @@ function FinalAccusation() {
 
   function handleReconsider() {
     setVerdictResult(null);
-    // Resume Interrogation theme
     soundManager.playInterrogationTheme();
   }
 
