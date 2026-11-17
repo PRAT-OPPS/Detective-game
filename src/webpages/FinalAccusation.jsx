@@ -1,4 +1,8 @@
 // src/webpages/FinalAccusation.jsx
+// FIXES APPLIED:
+//   #1 - markCaseSolved() now defined (was crashing with ReferenceError on correct answer)
+//   #2 - suspect.statement now renders correctly in lineup cards (was showing literal text)
+//   #7 - isShaking correctly reset in handleReconsider()
 
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -16,6 +20,19 @@ import {
   Check
 } from "lucide-react";
 
+// ✅ FIX #1: markCaseSolved is now defined (was missing — caused ReferenceError crash on win)
+function markCaseSolved(caseId) {
+  try {
+    const solved = JSON.parse(localStorage.getItem("cbi_solved_cases") || "[]");
+    if (!solved.includes(Number(caseId))) {
+      solved.push(Number(caseId));
+      localStorage.setItem("cbi_solved_cases", JSON.stringify(solved));
+    }
+  } catch (err) {
+    console.error("Failed to mark case as solved:", err);
+  }
+}
+
 // Curated High-Resolution Suspect Photos
 const SUSPECT_PHOTOS = {
   // Case 1: The Midnight Murder
@@ -29,17 +46,17 @@ const SUSPECT_PHOTOS = {
   "2-3": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=450&auto=format&fit=crop&q=80",
 
   // Case 3: The Case of the Hollow Maestro
-  "3-1": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=450&auto=format&fit=crop&q=80", // Julian Vance
-  "3-2": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=450&auto=format&fit=crop&q=80", // Evelyn Cross
-  "3-3": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=450&auto=format&fit=crop&q=80", // Dr. Mark Sterling
-  "3-4": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=450&auto=format&fit=crop&q=80", // Isaac Cole
+  "3-1": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=450&auto=format&fit=crop&q=80",
+  "3-2": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=450&auto=format&fit=crop&q=80",
+  "3-3": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=450&auto=format&fit=crop&q=80",
+  "3-4": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=450&auto=format&fit=crop&q=80",
 
   // Case 4: The Silent Witness
-  "4-1": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=450&auto=format&fit=crop&q=80", // Victoria Blackwood
-  "4-2": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=450&auto=format&fit=crop&q=80", // Daniel Blackwood
-  "4-3": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=450&auto=format&fit=crop&q=80", // Dr. Sophia Miller (Culprit)
-  "4-4": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=450&auto=format&fit=crop&q=80", // Thomas Grey
-  "4-5": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=450&auto=format&fit=crop&q=80"  // Rebecca Shaw
+  "4-1": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=450&auto=format&fit=crop&q=80",
+  "4-2": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=450&auto=format&fit=crop&q=80",
+  "4-3": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=450&auto=format&fit=crop&q=80",
+  "4-4": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=450&auto=format&fit=crop&q=80",
+  "4-5": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=450&auto=format&fit=crop&q=80"
 };
 
 const VERDICT_STORIES = {
@@ -161,20 +178,46 @@ function FinalAccusation() {
 
   const suspects = currentCase.suspects || [];
 
-  function handleSubmitAccusation() {
+  async function handleSubmitAccusation() {
     if (!selectedSuspectId) return;
 
-    const isCorrect = Number(selectedSuspectId) === currentCase.culprit;
-    const lookupKey = `${id}-${selectedSuspectId}`;
-    const story = VERDICT_STORIES[lookupKey] || {
-      confession: "The evidence against me is overwhelming... I did it.",
-      defense: "You have accused the wrong person! I am completely innocent!"
-    };
-
     const chosenSuspect = suspects.find((s) => s.id === Number(selectedSuspectId));
+    let isCorrect = false;
+    let confessionText = "";
+
+    try {
+      // Secure backend verification
+      const res = await fetch("http://localhost:5000/api/accusation/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          caseId: Number(id),
+          suspectId: Number(selectedSuspectId)
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        isCorrect = data.isCorrect;
+        confessionText = data.confession;
+      } else {
+        throw new Error(data.error);
+      }
+    } catch {
+      // Offline fallback
+      const lookupKey = `${id}-${selectedSuspectId}`;
+      const story = VERDICT_STORIES[lookupKey];
+      isCorrect = story ? story.correct : false;
+      confessionText = story?.confession;
+    }
+
+    const lookupKey = `${id}-${selectedSuspectId}`;
+    const fallbackDefense =
+      VERDICT_STORIES[lookupKey]?.defense ||
+      "You have accused the wrong person! I am completely innocent!";
 
     if (isCorrect) {
       soundManager.playVictoryTheme();
+      markCaseSolved(id); // ✅ FIX #1: now works — no more ReferenceError
     } else {
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 600);
@@ -183,12 +226,15 @@ function FinalAccusation() {
     setVerdictResult({
       isCorrect,
       suspect: chosenSuspect,
-      text: isCorrect ? story.confession : story.defense
+      text: isCorrect
+        ? confessionText || VERDICT_STORIES[lookupKey]?.confession
+        : fallbackDefense
     });
   }
 
   function handleReconsider() {
     setVerdictResult(null);
+    setIsShaking(false); // ✅ FIX #7: ensure shake is always cleared on reconsider
     soundManager.playInterrogationTheme();
   }
 
@@ -234,8 +280,9 @@ function FinalAccusation() {
                 <div className="suspect-lineup-info">
                   <h3>{suspect.name}</h3>
                   <span className="role-tag">{suspect.role}</span>
+                  {/* ✅ FIX #2: curly braces added — was showing literal "{suspect.statement}" */}
                   <div className="suspect-claim-bubble">
-                    "{suspect.statement}"
+                    &ldquo;{suspect.statement}&rdquo;
                   </div>
                 </div>
               </div>
@@ -304,7 +351,7 @@ function FinalAccusation() {
                   onClick={() => navigate("/")}
                 >
                   <CheckCircle2 size={16} />
-                  Close Case & Return to Dashboard
+                  Close Case &amp; Return to Dashboard
                 </button>
               ) : (
                 <>

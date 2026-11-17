@@ -1,4 +1,6 @@
 // src/webpages/Login.jsx
+// FIX #6 — Quick login now shows only the 2 real seeded accounts (Jane + Lisbon)
+//           Previously showed 4 avatars but all logged in as jane or lisbon anyway
 
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
@@ -15,6 +17,12 @@ import {
   CheckCircle2,
   Lock
 } from "lucide-react";
+
+// ✅ FIX #6: Only the 2 actual seeded demo accounts — no more fake avatars with wrong creds
+const DEMO_ACCOUNTS = [
+  { id: "jane", email: "jane@cbi.gov", password: "tea" },
+  { id: "lisbon", email: "lisbon@cbi.gov", password: "rules" }
+];
 
 function Login() {
   const navigate = useNavigate();
@@ -132,32 +140,37 @@ function Login() {
                 />
                 <span>Remember me</span>
               </label>
-              <a href="#help" onClick={(e) => { e.preventDefault(); setError("Demo credentials: jane@cbi.gov (key: tea) or lisbon@cbi.gov (key: rules)"); }}>
+              <a
+                href="#help"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setError("Demo credentials: jane@cbi.gov (key: tea) or lisbon@cbi.gov (key: rules)");
+                }}
+              >
                 Need help?
               </a>
             </div>
           </form>
 
-          {/* Netflix "Who's Watching?" Quick One-Click Switcher */}
+          {/* ✅ FIX #6: Quick login — only the 2 actual seeded demo accounts are shown */}
           <div className="netflix-quick-profiles">
             <span className="quick-title">OR SIGN IN AS OPERATIVE:</span>
             <div className="quick-avatar-row">
-              {MENTALIST_AVATARS.slice(0, 4).map((agent) => (
-                <div
-                  key={agent.id}
-                  className="quick-avatar-pill"
-                  onClick={() =>
-                    handleQuickLogin(
-                      agent.id === "jane" ? "jane@cbi.gov" : "lisbon@cbi.gov",
-                      agent.id === "jane" ? "tea" : "rules"
-                    )
-                  }
-                  title={`Fast Login as ${agent.name}`}
-                >
-                  <img src={agent.avatarUrl} alt={agent.name} />
-                  <span>{agent.name.split(" ")[0]}</span>
-                </div>
-              ))}
+              {DEMO_ACCOUNTS.map((account) => {
+                const avatar = MENTALIST_AVATARS.find((a) => a.id === account.id);
+                if (!avatar) return null;
+                return (
+                  <div
+                    key={account.id}
+                    className="quick-avatar-pill"
+                    onClick={() => handleQuickLogin(account.email, account.password)}
+                    title={`Fast Login as ${avatar.name}`}
+                  >
+                    <img src={avatar.avatarUrl} alt={avatar.name} />
+                    <span>{avatar.name.split(" ")[0]}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
 

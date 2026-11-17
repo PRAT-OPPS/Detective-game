@@ -67,8 +67,7 @@ export const cases = [
         icon: "🗝️",
         description: "A mysterious key found near the bookshelf."
       }
-    ],
-    culprit: 1
+    ]
   },
 
   // ==========================================
@@ -137,8 +136,7 @@ export const cases = [
         icon: "🔦",
         description: "A heavy waterproof torch half-buried in the sand with the battery smashed."
       }
-    ],
-    culprit: 3 // Jason Richter
+    ]
   },
 
   // ==========================================
@@ -157,7 +155,7 @@ export const cases = [
       {
         id: 1,
         name: "Julian Vance",
-        role: "Narcissistic Business Partner (The Culprit)",
+        role: "Narcissistic Business Partner",
         statement: "Arthur was a mentor, though undeniably eccentric. We parted amicably before 10 PM. You detectives are confusing theatre with criminality.",
         alibi: "Dining across town (Claimed 10:30 PM)",
         traits: { defensiveness: 92, deception: 96, guilt: 15, consistency: 48 },
@@ -216,8 +214,7 @@ export const cases = [
         icon: "⏱️",
         description: "Metronome ticking at 60 BPM with an oily fingerprint on the sliding weight, set up as psychological misdirection."
       }
-    ],
-    culprit: 1 // Julian Vance
+    ]
   },
 
   // ==========================================
@@ -254,7 +251,7 @@ export const cases = [
       {
         id: 3,
         name: "Dr. Sophia Miller",
-        role: "Research Partner & Project Mirror Assistant (The Culprit)",
+        role: "Research Partner & Project Mirror Assistant",
         statement: "I was merely Adrian's clinical assistant. I left his study before 11 PM after urging him not to publish classified subject files. Check the security lock.",
         alibi: "Guest Bedroom Library (Reviewing journals)",
         traits: { defensiveness: 94, deception: 98, guilt: 20, consistency: 52 },
@@ -322,7 +319,6 @@ export const cases = [
         description: "Cut-crystal goblet with burgundy sediment containing dissolved cyanide precipitate and a latent knop thumbprint.",
         glb: "/models/antique_crystal_wine_glass.glb"
       }
-    ],
-    culprit: 3 // Dr. Sophia Miller
+    ]
   }
 ];
